@@ -10,7 +10,7 @@
     "build": "tsc",
     "start": "node build/src/server.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec node --env-file=.env -r ts-node/register src/server.ts",
-    "test": "jest",
+    "test": "vitest",
     "prepare": "cd .. && husky main/.husky"
   },
   "dependencies": {
@@ -26,13 +26,13 @@
     "eslint": "^10.4.1",
     "globals": "^17.6.0",
     "husky": "^9.1.7",
-    "jest": "^30.4.2",
     "lint-staged": "^17.0.7",
+    "msw": "^2.14.6",
     "nodemon": "^3.1.14",
     "prettier": "^3.8.3",
-    "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.60.1"
+    "typescript-eslint": "^8.60.1",
+    "vitest": "^4.1.8"
   }
 }
