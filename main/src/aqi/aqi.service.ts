@@ -14,6 +14,33 @@ export class AqiService {
       const res = await axiosClient.get<Array<Aqi>>("/aqx_p_432");
       const data = {
         TAIPEI_CITY: res.data.filter((i) => i.county === "Taipei City"),
+        NEW_TAIPEI_CITY: res.data.filter((i) => i.county === "New Taipei City"),
+        KEELUNG_CITY: res.data.filter((i) => i.county === "Keelung City"),
+        TAOYUAN_CITY: res.data.filter((i) => i.county === "Taoyuan County"),
+        HSINCHU_CITY: res.data.filter((i) => i.county === "Hsinchu City"),
+        HSINCHU_COUNTY: res.data.filter((i) => i.county === "Hsinchu County"),
+        MIAOLI_COUNTY: res.data.filter((i) => i.county === "Miaoli County"),
+        TAICHUNG_CITY: res.data.filter(
+          (i) => i.county === "Taichung City" && !/nantou/i.test(i.sitename),
+        ),
+        NANTOU_COUNTY: res.data.filter(
+          (i) => i.county === "Nantou County" || /nantou/i.test(i.sitename),
+        ),
+        CHANGHUA_COUNTY: res.data.filter((i) => i.county === "Changhua County"),
+        YUNLIN_COUNTY: res.data.filter((i) => i.county === "Yunlin County"),
+        CHIAYI_CITY: res.data.filter((i) => i.county === "Chiayi City"),
+        CHIAYI_COUNTY: res.data.filter((i) => i.county === "Chiayi County"),
+        TAINAN_CITY: res.data.filter((i) => i.county === "Tainan City"),
+        KAOHSIUNG_CITY: res.data.filter((i) => i.county === "Kaohsiung City"),
+        PINGTUNG_COUNTY: res.data.filter((i) => i.county === "Pingtung County"),
+        YILAN_COUNTY: res.data.filter((i) => i.county === "Yilan County"),
+        HUALIEN_COUNTY: res.data.filter((i) => i.county === "Hualien County"),
+        TAITUNG_COUNTY: res.data.filter((i) => i.county === "Taitung County"),
+        PENGHU_COUNTY: res.data.filter((i) => i.county === "Penghu County"),
+        KINMEN_COUNTY: res.data.filter((i) => i.county === "Kinmen County"),
+        LIENCHIANG_COUNTY: res.data.filter(
+          (i) => i.county === "Lienchiang County",
+        ),
       };
 
       return data;
