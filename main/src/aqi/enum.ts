@@ -2,7 +2,7 @@ export type Location =
   | TAIPEI_CITY
   | NEW_TAIPEI_CITY
   | KEELUNG_CITY
-  | TAOYUAN_COUNTY
+  | TAOYUAN_CITY
   | HSINCHU_CITY
   | HSINCHU_COUNTY
   | MIAOLI_COUNTY
@@ -51,7 +51,7 @@ export enum KEELUNG_CITY {
   KEELUNG = "KEELUNG",
 }
 
-export enum TAOYUAN_COUNTY {
+export enum TAOYUAN_CITY {
   ZHONGLI = "ZHONGLI",
   LONGTAN = "LONGTAN",
   PINGZHEN = "PINGZHEN",
