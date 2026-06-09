@@ -27,6 +27,24 @@ export interface Aqi {
   latitude: string;
 }
 
+export interface AqiData {
+  siteid: string;
+  sitename: string;
+  county: RAW_LOCATION;
+  aqi: string;
+  pollutant: string;
+  status: string;
+  "pm2.5": string;
+  no2: string;
+  pm10: string;
+  o3: string;
+  co: string;
+  so2: string;
+  publishtime: string;
+  longitude: string;
+  latitude: string;
+}
+
 export interface HourlyAqi {
   siteId: string;
   sitename: string;

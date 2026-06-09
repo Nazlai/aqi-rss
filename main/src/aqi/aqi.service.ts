@@ -2,7 +2,8 @@ import { axiosClient } from "../utils/axios";
 import { EmptyResponseError, PathNotFoundError } from "./aqi.error";
 import { LOCATION_API, DISTRICT_LOOKUP } from "./constant";
 import { DISTRICT, Location, Pollutant, RAW_LOCATION } from "./enum";
-import { Aqi, HourlyAqi, HourlyAqiData } from "./types";
+import { Aqi, AqiData, HourlyAqi, HourlyAqiData } from "./types";
+import { aqiDataConverter } from "./utils/aqiDataConverter";
 
 const HOURS_IN_DAY = 24;
 
@@ -37,9 +38,10 @@ export class AqiService {
   async getLatestAqi() {
     try {
       const res = await axiosClient.get<Array<Aqi>>("/aqx_p_432");
-      const data = res.data.reduce((acc: Record<DISTRICT, Aqi[]>, cur) => {
+      const data = res.data.reduce((acc: Record<DISTRICT, AqiData[]>, cur) => {
         const key = DISTRICT_LOOKUP[cur.county];
         const list = acc[key];
+        const aqiData = aqiDataConverter(cur);
 
         if (
           cur.county === RAW_LOCATION.NANTOU_COUNTY ||
@@ -47,7 +49,7 @@ export class AqiService {
         ) {
           return {
             ...acc,
-            [DISTRICT.NANTOU_COUNTY]: list.concat(cur),
+            [DISTRICT.NANTOU_COUNTY]: list.concat(aqiData),
           };
         }
 
@@ -57,13 +59,13 @@ export class AqiService {
         ) {
           return {
             ...acc,
-            [DISTRICT.TAICHUNG_CITY]: list.concat(cur),
+            [DISTRICT.TAICHUNG_CITY]: list.concat(aqiData),
           };
         }
 
         return {
           ...acc,
-          [key]: list.concat(cur),
+          [key]: list.concat(aqiData),
         };
       }, INITIAL_LOCATION_MAP);
 
