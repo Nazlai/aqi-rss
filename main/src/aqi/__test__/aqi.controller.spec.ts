@@ -1,17 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
 import { EmptyResponseError, PathNotFoundError } from "../aqi.error";
-import { AqiController } from "../aqi.controller";
-import { Location, TAIPEI_CITY } from "../enum";
+import { AqiController, RequestWithLocation } from "../aqi.controller";
+import { TAIPEI_CITY } from "../enum";
 import { Request, Response } from "express";
 import expectedAqimock from "./mock/aqi.mock.expected.json";
 import expectedHourlyAqimock from "./mock/hourlyaqi.mock.expected.json";
-
-type RequestWithLocation = Request<
-  object,
-  object,
-  object,
-  { location: Location }
->;
 
 describe("aqi controller", () => {
   describe("getLatestAqi", () => {
