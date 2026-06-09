@@ -8,8 +8,9 @@
     "rootDir": ".",
     "outDir": "build",
     "module": "nodenext",
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "types": ["node"]
   },
-  "include": ["./src/*.ts"],
+  "include": ["./src/**/*.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
