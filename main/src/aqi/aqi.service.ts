@@ -1,10 +1,35 @@
 import { axiosClient } from "../utils/axios";
 import { EmptyResponseError, PathNotFoundError } from "./aqi.error";
-import { LOCATION_API } from "./constant";
-import { Location, Pollutant } from "./enum";
+import { LOCATION_API, DISTRICT_LOOKUP } from "./constant";
+import { DISTRICT, Location, Pollutant, RAW_LOCATION } from "./enum";
 import { Aqi, HourlyAqi, HourlyAqiData } from "./types";
 
 const HOURS_IN_DAY = 24;
+
+const INITIAL_LOCATION_MAP = {
+  [DISTRICT.TAIPEI_CITY]: [],
+  [DISTRICT.NEW_TAIPEI_CITY]: [],
+  [DISTRICT.KEELUNG_CITY]: [],
+  [DISTRICT.TAOYUAN_CITY]: [],
+  [DISTRICT.HSINCHU_CITY]: [],
+  [DISTRICT.HSINCHU_COUNTY]: [],
+  [DISTRICT.MIAOLI_COUNTY]: [],
+  [DISTRICT.TAICHUNG_CITY]: [],
+  [DISTRICT.NANTOU_COUNTY]: [],
+  [DISTRICT.CHANGHUA_COUNTY]: [],
+  [DISTRICT.YUNLIN_COUNTY]: [],
+  [DISTRICT.CHIAYI_CITY]: [],
+  [DISTRICT.CHIAYI_COUNTY]: [],
+  [DISTRICT.TAINAN_CITY]: [],
+  [DISTRICT.KAOHSIUNG_CITY]: [],
+  [DISTRICT.PINGTUNG_COUNTY]: [],
+  [DISTRICT.YILAN_COUNTY]: [],
+  [DISTRICT.HUALIEN_COUNTY]: [],
+  [DISTRICT.TAITUNG_COUNTY]: [],
+  [DISTRICT.PENGHU_COUNTY]: [],
+  [DISTRICT.KINMEN_COUNTY]: [],
+  [DISTRICT.LIENCHIANG_COUNTY]: [],
+};
 
 export class AqiService {
   constructor() {}
@@ -12,36 +37,35 @@ export class AqiService {
   async getLatestAqi() {
     try {
       const res = await axiosClient.get<Array<Aqi>>("/aqx_p_432");
-      const data = {
-        TAIPEI_CITY: res.data.filter((i) => i.county === "Taipei City"),
-        NEW_TAIPEI_CITY: res.data.filter((i) => i.county === "New Taipei City"),
-        KEELUNG_CITY: res.data.filter((i) => i.county === "Keelung City"),
-        TAOYUAN_CITY: res.data.filter((i) => i.county === "Taoyuan County"),
-        HSINCHU_CITY: res.data.filter((i) => i.county === "Hsinchu City"),
-        HSINCHU_COUNTY: res.data.filter((i) => i.county === "Hsinchu County"),
-        MIAOLI_COUNTY: res.data.filter((i) => i.county === "Miaoli County"),
-        TAICHUNG_CITY: res.data.filter(
-          (i) => i.county === "Taichung City" && !/nantou/i.test(i.sitename),
-        ),
-        NANTOU_COUNTY: res.data.filter(
-          (i) => i.county === "Nantou County" || /nantou/i.test(i.sitename),
-        ),
-        CHANGHUA_COUNTY: res.data.filter((i) => i.county === "Changhua County"),
-        YUNLIN_COUNTY: res.data.filter((i) => i.county === "Yunlin County"),
-        CHIAYI_CITY: res.data.filter((i) => i.county === "Chiayi City"),
-        CHIAYI_COUNTY: res.data.filter((i) => i.county === "Chiayi County"),
-        TAINAN_CITY: res.data.filter((i) => i.county === "Tainan City"),
-        KAOHSIUNG_CITY: res.data.filter((i) => i.county === "Kaohsiung City"),
-        PINGTUNG_COUNTY: res.data.filter((i) => i.county === "Pingtung County"),
-        YILAN_COUNTY: res.data.filter((i) => i.county === "Yilan County"),
-        HUALIEN_COUNTY: res.data.filter((i) => i.county === "Hualien County"),
-        TAITUNG_COUNTY: res.data.filter((i) => i.county === "Taitung County"),
-        PENGHU_COUNTY: res.data.filter((i) => i.county === "Penghu County"),
-        KINMEN_COUNTY: res.data.filter((i) => i.county === "Kinmen County"),
-        LIENCHIANG_COUNTY: res.data.filter(
-          (i) => i.county === "Lienchiang County",
-        ),
-      };
+      const data = res.data.reduce((acc: Record<DISTRICT, Aqi[]>, cur) => {
+        const key = DISTRICT_LOOKUP[cur.county];
+        const list = acc[key];
+
+        if (
+          cur.county === RAW_LOCATION.NANTOU_COUNTY ||
+          /nantou/i.test(cur.sitename)
+        ) {
+          return {
+            ...acc,
+            [DISTRICT.NANTOU_COUNTY]: list.concat(cur),
+          };
+        }
+
+        if (
+          cur.county === RAW_LOCATION.TAICHUNG_CITY &&
+          !/nantou/i.test(cur.sitename)
+        ) {
+          return {
+            ...acc,
+            [DISTRICT.TAICHUNG_CITY]: list.concat(cur),
+          };
+        }
+
+        return {
+          ...acc,
+          [key]: list.concat(cur),
+        };
+      }, INITIAL_LOCATION_MAP);
 
       return data;
     } catch (error) {
