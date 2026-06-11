@@ -40,6 +40,10 @@ export interface AqiData {
   o3: string;
   co: string;
   so2: string;
+  "pm2.5_avg": string;
+  pm10_avg: string;
+  co_8hr: string;
+  o3_8hr: string;
   publishtime: string;
   longitude: string;
   latitude: string;
