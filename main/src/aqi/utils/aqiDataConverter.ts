@@ -1,10 +1,24 @@
+import { capitalize } from "../../utils/capitalize";
 import { parseAirQuality } from "../../utils/parseAirQuality";
+import { RAW_LOCATION } from "../enum";
 import { Aqi, AqiData } from "../types";
 
+const LEFT_UNICODE_PARENTHESIS = "\\uff08";
+const RIGHT_UNICODE_PARENTHESIS = "\\uff09";
+const cities = Object.values(RAW_LOCATION)
+  .map((city) => city.replace(/\s(city)|\s(county)/i, ""))
+  .join("|");
+const citiesRegex = new RegExp(
+  `(${cities})${LEFT_UNICODE_PARENTHESIS}|${RIGHT_UNICODE_PARENTHESIS}`,
+  "g",
+);
+
 export function aqiDataConverter(value: Aqi): AqiData {
+  const siteName = value.sitename.replace(citiesRegex, "");
+
   return {
     siteid: value.siteid,
-    sitename: value.sitename,
+    sitename: capitalize(siteName),
     county: value.county,
     aqi: value.aqi,
     pollutant: value.pollutant,
