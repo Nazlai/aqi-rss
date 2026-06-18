@@ -150,7 +150,7 @@
   ],
   "NEW_TAIPEI_CITY": [
     {
-      "sitename": "New Taipei（Shulin）",
+      "sitename": "Shulin",
       "county": "New Taipei City",
       "aqi": "31",
       "pollutant": "",
@@ -815,7 +815,7 @@
   ],
   "NANTOU_COUNTY": [
     {
-      "sitename": "Nantou（Lugu）",
+      "sitename": "Lugu",
       "county": "Taichung City",
       "aqi": "18",
       "pollutant": "",
@@ -1522,7 +1522,7 @@
   ],
   "PINGTUNG_COUNTY": [
     {
-      "sitename": "Pingtung（fangshan）",
+      "sitename": "Fangshan",
       "county": "Pingtung County",
       "aqi": "31",
       "pollutant": "",
@@ -1543,7 +1543,7 @@
       "siteid": "313"
     },
     {
-      "sitename": "Pingtung（Liuqiu）",
+      "sitename": "Liuqiu",
       "county": "Pingtung County",
       "aqi": "25",
       "pollutant": "",
