@@ -2,7 +2,7 @@
   "TAIPEI_CITY": [
     {
       "sitename": "Yangming",
-      "county": "Taipei City",
+      "county": "TAIPEI_CITY",
       "aqi": "25",
       "pollutant": "",
       "status": "GOOD",
@@ -23,7 +23,7 @@
     },
     {
       "sitename": "Datong",
-      "county": "Taipei City",
+      "county": "TAIPEI_CITY",
       "aqi": "50",
       "pollutant": "",
       "status": "UNHEALTHY_SENSITIVE",
@@ -44,7 +44,7 @@
     },
     {
       "sitename": "Songshan",
-      "county": "Taipei City",
+      "county": "TAIPEI_CITY",
       "aqi": "52",
       "pollutant": "NO2",
       "status": "MODERATE",
@@ -65,7 +65,7 @@
     },
     {
       "sitename": "Guting",
-      "county": "Taipei City",
+      "county": "TAIPEI_CITY",
       "aqi": "45",
       "pollutant": "",
       "status": "UNHEALTHY",
@@ -86,7 +86,7 @@
     },
     {
       "sitename": "Wanhua",
-      "county": "Taipei City",
+      "county": "TAIPEI_CITY",
       "aqi": "38",
       "pollutant": "",
       "status": "VERY_UNHEALTHY",
@@ -107,7 +107,7 @@
     },
     {
       "sitename": "Zhongshan",
-      "county": "Taipei City",
+      "county": "TAIPEI_CITY",
       "aqi": "52",
       "pollutant": "NO2",
       "status": "HAZARDOUS",
@@ -128,7 +128,7 @@
     },
     {
       "sitename": "Shilin",
-      "county": "Taipei City",
+      "county": "TAIPEI_CITY",
       "aqi": "29",
       "pollutant": "",
       "status": "GOOD",
@@ -151,7 +151,7 @@
   "NEW_TAIPEI_CITY": [
     {
       "sitename": "Shulin",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "31",
       "pollutant": "",
       "status": "GOOD",
@@ -172,7 +172,7 @@
     },
     {
       "sitename": "FugueiCape",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "22",
       "pollutant": "",
       "status": "GOOD",
@@ -193,7 +193,7 @@
     },
     {
       "sitename": "Yonghe",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "52",
       "pollutant": "NO2",
       "status": "MODERATE",
@@ -214,7 +214,7 @@
     },
     {
       "sitename": "Sanchong",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "54",
       "pollutant": "NO2",
       "status": "MODERATE",
@@ -235,7 +235,7 @@
     },
     {
       "sitename": "Tamsui",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "16",
       "pollutant": "",
       "status": "GOOD",
@@ -256,7 +256,7 @@
     },
     {
       "sitename": "Linkou",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "18",
       "pollutant": "",
       "status": "GOOD",
@@ -277,7 +277,7 @@
     },
     {
       "sitename": "Cailiao",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "45",
       "pollutant": "",
       "status": "GOOD",
@@ -298,7 +298,7 @@
     },
     {
       "sitename": "Xinzhuang",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "37",
       "pollutant": "",
       "status": "GOOD",
@@ -319,7 +319,7 @@
     },
     {
       "sitename": "Banqiao",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "51",
       "pollutant": "NO2",
       "status": "MODERATE",
@@ -340,7 +340,7 @@
     },
     {
       "sitename": "Tucheng",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "51",
       "pollutant": "NO2",
       "status": "MODERATE",
@@ -361,7 +361,7 @@
     },
     {
       "sitename": "Xindian",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "36",
       "pollutant": "",
       "status": "GOOD",
@@ -382,7 +382,7 @@
     },
     {
       "sitename": "Xizhi",
-      "county": "New Taipei City",
+      "county": "NEW_TAIPEI_CITY",
       "aqi": "33",
       "pollutant": "",
       "status": "GOOD",
@@ -405,7 +405,7 @@
   "KEELUNG_CITY": [
     {
       "sitename": "Keelung",
-      "county": "Keelung City",
+      "county": "KEELUNG_CITY",
       "aqi": "18",
       "pollutant": "",
       "status": "GOOD",
@@ -428,7 +428,7 @@
   "TAOYUAN_CITY": [
     {
       "sitename": "Zhongli",
-      "county": "Taoyuan County",
+      "county": "TAOYUAN_CITY",
       "aqi": "50",
       "pollutant": "",
       "status": "GOOD",
@@ -449,7 +449,7 @@
     },
     {
       "sitename": "Longtan",
-      "county": "Taoyuan County",
+      "county": "TAOYUAN_CITY",
       "aqi": "20",
       "pollutant": "",
       "status": "GOOD",
@@ -470,7 +470,7 @@
     },
     {
       "sitename": "Pingzhen",
-      "county": "Taoyuan County",
+      "county": "TAOYUAN_CITY",
       "aqi": "40",
       "pollutant": "",
       "status": "GOOD",
@@ -491,7 +491,7 @@
     },
     {
       "sitename": "Guanyin",
-      "county": "Taoyuan County",
+      "county": "TAOYUAN_CITY",
       "aqi": "19",
       "pollutant": "",
       "status": "GOOD",
@@ -512,7 +512,7 @@
     },
     {
       "sitename": "Dayuan",
-      "county": "Taoyuan County",
+      "county": "TAOYUAN_CITY",
       "aqi": "26",
       "pollutant": "",
       "status": "GOOD",
@@ -533,7 +533,7 @@
     },
     {
       "sitename": "Taoyuan",
-      "county": "Taoyuan County",
+      "county": "TAOYUAN_CITY",
       "aqi": "36",
       "pollutant": "",
       "status": "GOOD",
@@ -556,7 +556,7 @@
   "HSINCHU_CITY": [
     {
       "sitename": "Hsinchu",
-      "county": "Hsinchu City",
+      "county": "HSINCHU_CITY",
       "aqi": "26",
       "pollutant": "",
       "status": "GOOD",
@@ -579,7 +579,7 @@
   "HSINCHU_COUNTY": [
     {
       "sitename": "Zhudong",
-      "county": "Hsinchu County",
+      "county": "HSINCHU_COUNTY",
       "aqi": "20",
       "pollutant": "",
       "status": "GOOD",
@@ -600,7 +600,7 @@
     },
     {
       "sitename": "Hukou",
-      "county": "Hsinchu County",
+      "county": "HSINCHU_COUNTY",
       "aqi": "17",
       "pollutant": "",
       "status": "GOOD",
@@ -623,7 +623,7 @@
   "MIAOLI_COUNTY": [
     {
       "sitename": "Sanyi",
-      "county": "Miaoli County",
+      "county": "MIAOLI_COUNTY",
       "aqi": "15",
       "pollutant": "",
       "status": "GOOD",
@@ -644,7 +644,7 @@
     },
     {
       "sitename": "Miaoli",
-      "county": "Miaoli County",
+      "county": "MIAOLI_COUNTY",
       "aqi": "20",
       "pollutant": "",
       "status": "GOOD",
@@ -665,7 +665,7 @@
     },
     {
       "sitename": "Toufen",
-      "county": "Miaoli County",
+      "county": "MIAOLI_COUNTY",
       "aqi": "24",
       "pollutant": "",
       "status": "GOOD",
@@ -688,7 +688,7 @@
   "TAICHUNG_CITY": [
     {
       "sitename": "Taiwan Avenue",
-      "county": "Taichung City",
+      "county": "TAICHUNG_CITY",
       "aqi": "50",
       "pollutant": "",
       "status": "GOOD",
@@ -709,7 +709,7 @@
     },
     {
       "sitename": "Xitun",
-      "county": "Taichung City",
+      "county": "TAICHUNG_CITY",
       "aqi": "25",
       "pollutant": "",
       "status": "GOOD",
@@ -730,7 +730,7 @@
     },
     {
       "sitename": "Zhongming",
-      "county": "Taichung City",
+      "county": "TAICHUNG_CITY",
       "aqi": "36",
       "pollutant": "",
       "status": "GOOD",
@@ -751,7 +751,7 @@
     },
     {
       "sitename": "Dali",
-      "county": "Taichung City",
+      "county": "TAICHUNG_CITY",
       "aqi": "33",
       "pollutant": "",
       "status": "GOOD",
@@ -772,7 +772,7 @@
     },
     {
       "sitename": "Shalu",
-      "county": "Taichung City",
+      "county": "TAICHUNG_CITY",
       "aqi": "18",
       "pollutant": "",
       "status": "GOOD",
@@ -793,7 +793,7 @@
     },
     {
       "sitename": "Fengyuan",
-      "county": "Taichung City",
+      "county": "TAICHUNG_CITY",
       "aqi": "16",
       "pollutant": "",
       "status": "GOOD",
@@ -816,7 +816,7 @@
   "NANTOU_COUNTY": [
     {
       "sitename": "Lugu",
-      "county": "Taichung City",
+      "county": "TAICHUNG_CITY",
       "aqi": "18",
       "pollutant": "",
       "status": "GOOD",
@@ -837,7 +837,7 @@
     },
     {
       "sitename": "Puli",
-      "county": "Nantou County",
+      "county": "NANTOU_COUNTY",
       "aqi": "23",
       "pollutant": "",
       "status": "GOOD",
@@ -858,7 +858,7 @@
     },
     {
       "sitename": "Zhushan",
-      "county": "Nantou County",
+      "county": "NANTOU_COUNTY",
       "aqi": "25",
       "pollutant": "",
       "status": "GOOD",
@@ -879,7 +879,7 @@
     },
     {
       "sitename": "Nantou",
-      "county": "Nantou County",
+      "county": "NANTOU_COUNTY",
       "aqi": "25",
       "pollutant": "",
       "status": "GOOD",
@@ -902,7 +902,7 @@
   "CHANGHUA_COUNTY": [
     {
       "sitename": "Yuanlin",
-      "county": "Changhua County",
+      "county": "CHANGHUA_COUNTY",
       "aqi": "34",
       "pollutant": "",
       "status": "GOOD",
@@ -923,7 +923,7 @@
     },
     {
       "sitename": "Dacheng",
-      "county": "Changhua County",
+      "county": "CHANGHUA_COUNTY",
       "aqi": "20",
       "pollutant": "",
       "status": "GOOD",
@@ -944,7 +944,7 @@
     },
     {
       "sitename": "Erlin",
-      "county": "Changhua County",
+      "county": "CHANGHUA_COUNTY",
       "aqi": "23",
       "pollutant": "",
       "status": "GOOD",
@@ -965,7 +965,7 @@
     },
     {
       "sitename": "Xianxi",
-      "county": "Changhua County",
+      "county": "CHANGHUA_COUNTY",
       "aqi": "24",
       "pollutant": "",
       "status": "GOOD",
@@ -986,7 +986,7 @@
     },
     {
       "sitename": "Changhua",
-      "county": "Changhua County",
+      "county": "CHANGHUA_COUNTY",
       "aqi": "38",
       "pollutant": "",
       "status": "GOOD",
@@ -1009,7 +1009,7 @@
   "YUNLIN_COUNTY": [
     {
       "sitename": "Mailiao",
-      "county": "Yunlin County",
+      "county": "YUNLIN_COUNTY",
       "aqi": "23",
       "pollutant": "",
       "status": "GOOD",
@@ -1030,7 +1030,7 @@
     },
     {
       "sitename": "Taixi",
-      "county": "Yunlin County",
+      "county": "YUNLIN_COUNTY",
       "aqi": "23",
       "pollutant": "",
       "status": "GOOD",
@@ -1051,7 +1051,7 @@
     },
     {
       "sitename": "Lunbei",
-      "county": "Yunlin County",
+      "county": "YUNLIN_COUNTY",
       "aqi": "29",
       "pollutant": "",
       "status": "GOOD",
@@ -1072,7 +1072,7 @@
     },
     {
       "sitename": "Douliu",
-      "county": "Yunlin County",
+      "county": "YUNLIN_COUNTY",
       "aqi": "32",
       "pollutant": "",
       "status": "GOOD",
@@ -1095,7 +1095,7 @@
   "CHIAYI_CITY": [
     {
       "sitename": "Chiayi",
-      "county": "Chiayi City",
+      "county": "CHIAYI_CITY",
       "aqi": "33",
       "pollutant": "",
       "status": "GOOD",
@@ -1118,7 +1118,7 @@
   "CHIAYI_COUNTY": [
     {
       "sitename": "Puzi",
-      "county": "Chiayi County",
+      "county": "CHIAYI_COUNTY",
       "aqi": "22",
       "pollutant": "",
       "status": "GOOD",
@@ -1139,7 +1139,7 @@
     },
     {
       "sitename": "Xingang",
-      "county": "Chiayi County",
+      "county": "CHIAYI_COUNTY",
       "aqi": "30",
       "pollutant": "",
       "status": "GOOD",
@@ -1162,7 +1162,7 @@
   "TAINAN_CITY": [
     {
       "sitename": "Linsen",
-      "county": "Tainan City",
+      "county": "TAINAN_CITY",
       "aqi": "48",
       "pollutant": "",
       "status": "GOOD",
@@ -1183,7 +1183,7 @@
     },
     {
       "sitename": "Tainan",
-      "county": "Tainan City",
+      "county": "TAINAN_CITY",
       "aqi": "45",
       "pollutant": "",
       "status": "GOOD",
@@ -1204,7 +1204,7 @@
     },
     {
       "sitename": "Annan",
-      "county": "Tainan City",
+      "county": "TAINAN_CITY",
       "aqi": "29",
       "pollutant": "",
       "status": "GOOD",
@@ -1225,7 +1225,7 @@
     },
     {
       "sitename": "Shanhua",
-      "county": "Tainan City",
+      "county": "TAINAN_CITY",
       "aqi": "26",
       "pollutant": "",
       "status": "GOOD",
@@ -1246,7 +1246,7 @@
     },
     {
       "sitename": "Xinying",
-      "county": "Tainan City",
+      "county": "TAINAN_CITY",
       "aqi": "20",
       "pollutant": "",
       "status": "GOOD",
@@ -1269,7 +1269,7 @@
   "KAOHSIUNG_CITY": [
     {
       "sitename": "Fuxing",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "29",
       "pollutant": "",
       "status": "GOOD",
@@ -1290,7 +1290,7 @@
     },
     {
       "sitename": "Xiaogang",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "31",
       "pollutant": "",
       "status": "GOOD",
@@ -1311,7 +1311,7 @@
     },
     {
       "sitename": "Qianzhen",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "29",
       "pollutant": "",
       "status": "GOOD",
@@ -1332,7 +1332,7 @@
     },
     {
       "sitename": "Qianjin",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "29",
       "pollutant": "",
       "status": "GOOD",
@@ -1353,7 +1353,7 @@
     },
     {
       "sitename": "Zuoying",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "40",
       "pollutant": "",
       "status": "GOOD",
@@ -1374,7 +1374,7 @@
     },
     {
       "sitename": "Nanzi",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "17",
       "pollutant": "",
       "status": "GOOD",
@@ -1395,7 +1395,7 @@
     },
     {
       "sitename": "Linyuan",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "42",
       "pollutant": "",
       "status": "GOOD",
@@ -1416,7 +1416,7 @@
     },
     {
       "sitename": "Daliao",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "24",
       "pollutant": "",
       "status": "GOOD",
@@ -1437,7 +1437,7 @@
     },
     {
       "sitename": "Fengshan",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "20",
       "pollutant": "",
       "status": "GOOD",
@@ -1458,7 +1458,7 @@
     },
     {
       "sitename": "Renwu",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "29",
       "pollutant": "",
       "status": "GOOD",
@@ -1479,7 +1479,7 @@
     },
     {
       "sitename": "Qiaotou",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "24",
       "pollutant": "",
       "status": "GOOD",
@@ -1500,7 +1500,7 @@
     },
     {
       "sitename": "Meinong",
-      "county": "Kaohsiung City",
+      "county": "KAOHSIUNG_CITY",
       "aqi": "17",
       "pollutant": "",
       "status": "GOOD",
@@ -1523,7 +1523,7 @@
   "PINGTUNG_COUNTY": [
     {
       "sitename": "Fangshan",
-      "county": "Pingtung County",
+      "county": "PINGTUNG_COUNTY",
       "aqi": "31",
       "pollutant": "",
       "status": "GOOD",
@@ -1544,7 +1544,7 @@
     },
     {
       "sitename": "Liuqiu",
-      "county": "Pingtung County",
+      "county": "PINGTUNG_COUNTY",
       "aqi": "25",
       "pollutant": "",
       "status": "GOOD",
@@ -1565,7 +1565,7 @@
     },
     {
       "sitename": "Hengchun",
-      "county": "Pingtung County",
+      "county": "PINGTUNG_COUNTY",
       "aqi": "30",
       "pollutant": "",
       "status": "GOOD",
@@ -1586,7 +1586,7 @@
     },
     {
       "sitename": "Chaozhou",
-      "county": "Pingtung County",
+      "county": "PINGTUNG_COUNTY",
       "aqi": "26",
       "pollutant": "",
       "status": "GOOD",
@@ -1607,7 +1607,7 @@
     },
     {
       "sitename": "Pingtung",
-      "county": "Pingtung County",
+      "county": "PINGTUNG_COUNTY",
       "aqi": "23",
       "pollutant": "",
       "status": "GOOD",
@@ -1630,7 +1630,7 @@
   "YILAN_COUNTY": [
     {
       "sitename": "Dongshan",
-      "county": "Yilan County",
+      "county": "YILAN_COUNTY",
       "aqi": "37",
       "pollutant": "",
       "status": "GOOD",
@@ -1651,7 +1651,7 @@
     },
     {
       "sitename": "Yilan",
-      "county": "Yilan County",
+      "county": "YILAN_COUNTY",
       "aqi": "27",
       "pollutant": "",
       "status": "GOOD",
@@ -1674,7 +1674,7 @@
   "HUALIEN_COUNTY": [
     {
       "sitename": "Hualien",
-      "county": "Hualien County",
+      "county": "HUALIEN_COUNTY",
       "aqi": "11",
       "pollutant": "",
       "status": "GOOD",
@@ -1697,7 +1697,7 @@
   "TAITUNG_COUNTY": [
     {
       "sitename": "Guanshan",
-      "county": "Taitung County",
+      "county": "TAITUNG_COUNTY",
       "aqi": "21",
       "pollutant": "",
       "status": "GOOD",
@@ -1718,7 +1718,7 @@
     },
     {
       "sitename": "Taitung",
-      "county": "Taitung County",
+      "county": "TAITUNG_COUNTY",
       "aqi": "19",
       "pollutant": "",
       "status": "GOOD",
@@ -1741,7 +1741,7 @@
   "PENGHU_COUNTY": [
     {
       "sitename": "Magong",
-      "county": "Penghu County",
+      "county": "PENGHU_COUNTY",
       "aqi": "25",
       "pollutant": "",
       "status": "GOOD",
@@ -1764,7 +1764,7 @@
   "KINMEN_COUNTY": [
     {
       "sitename": "Kinmen",
-      "county": "Kinmen County",
+      "county": "KINMEN_COUNTY",
       "aqi": "49",
       "pollutant": "",
       "status": "GOOD",
@@ -1787,7 +1787,7 @@
   "LIENCHIANG_COUNTY": [
     {
       "sitename": "Matsu",
-      "county": "Lienchiang County",
+      "county": "LIENCHIANG_COUNTY",
       "aqi": "38",
       "pollutant": "",
       "status": "GOOD",
