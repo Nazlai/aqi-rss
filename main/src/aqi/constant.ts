@@ -23,6 +23,7 @@ import {
   LIENCHIANG_COUNTY,
   RAW_LOCATION,
   DISTRICT,
+  AirQuality,
 } from "./enum";
 
 export const TAIPEI_CITY_API = {
@@ -223,4 +224,13 @@ export const DISTRICT_LOOKUP: Record<RAW_LOCATION, DISTRICT> = {
   [RAW_LOCATION.PENGHU_COUNTY]: DISTRICT.PENGHU_COUNTY,
   [RAW_LOCATION.KINMEN_COUNTY]: DISTRICT.KINMEN_COUNTY,
   [RAW_LOCATION.LIENCHIANG_COUNTY]: DISTRICT.LIENCHIANG_COUNTY,
+};
+
+export const AIR_QUALITY_STRING_MAP: Record<string, AirQuality> = {
+  good: AirQuality.GOOD,
+  moderate: AirQuality.MODERATE,
+  "unhealthy for sensitive groups": AirQuality.UNHEALTHY_SENSITIVE,
+  unhealthy: AirQuality.UNHEALTHY,
+  "very unhealthy": AirQuality.VERY_UNHEALTHY,
+  hazardous: AirQuality.HAZARDOUS,
 };

@@ -1,3 +1,4 @@
+import { parseAirQuality } from "../../utils/parseAirQuality";
 import { Aqi, AqiData } from "../types";
 
 export function aqiDataConverter(value: Aqi): AqiData {
@@ -7,7 +8,7 @@ export function aqiDataConverter(value: Aqi): AqiData {
     county: value.county,
     aqi: value.aqi,
     pollutant: value.pollutant,
-    status: value.status,
+    status: parseAirQuality(value.status),
     "pm2.5": value["pm2.5"],
     no2: value.no2,
     pm10: value.pm10,
