@@ -1,4 +1,4 @@
-import { AirQuality, Pollutant, RAW_LOCATION } from "./enum";
+import { AirQuality, DISTRICT, Pollutant, RAW_LOCATION } from "./enum";
 
 export interface Aqi {
   siteid: string;
@@ -30,7 +30,7 @@ export interface Aqi {
 export interface AqiData {
   siteid: string;
   sitename: string;
-  county: RAW_LOCATION;
+  county: DISTRICT;
   aqi: string;
   pollutant: string;
   status: AirQuality;

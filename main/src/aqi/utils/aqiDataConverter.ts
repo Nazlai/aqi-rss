@@ -1,5 +1,6 @@
 import { capitalize } from "../../utils/capitalize";
 import { parseAirQuality } from "../../utils/parseAirQuality";
+import { parseDistrict } from "../../utils/parseDistrict";
 import { RAW_LOCATION } from "../enum";
 import { Aqi, AqiData } from "../types";
 
@@ -19,7 +20,7 @@ export function aqiDataConverter(value: Aqi): AqiData {
   return {
     siteid: value.siteid,
     sitename: capitalize(siteName),
-    county: value.county,
+    county: parseDistrict(value.county),
     aqi: value.aqi,
     pollutant: value.pollutant,
     status: parseAirQuality(value.status),
