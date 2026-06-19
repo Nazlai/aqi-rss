@@ -63,10 +63,10 @@ export interface HourlyAqi {
 
 export interface HourlyAqiData {
   monitordate: string;
-  [Pollutant.PARTICULATE_MATTER_TWO_POINT_FIVE]: string;
-  [Pollutant.NITOGEN_DIOXIDE]: string;
-  [Pollutant.PARTICULATE_MATTER_TEN]: string;
-  [Pollutant.OZONE]: string;
-  [Pollutant.CARBON_MONOXIDE]: string;
-  [Pollutant.SULFUR_DIOXIDE]: string;
+  [Pollutant.PARTICULATE_MATTER_TWO_POINT_FIVE]: number;
+  [Pollutant.NITOGEN_DIOXIDE]: number;
+  [Pollutant.PARTICULATE_MATTER_TEN]: number;
+  [Pollutant.OZONE]: number;
+  [Pollutant.CARBON_MONOXIDE]: number;
+  [Pollutant.SULFUR_DIOXIDE]: number;
 }

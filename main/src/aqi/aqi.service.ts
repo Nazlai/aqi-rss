@@ -105,13 +105,13 @@ export class AqiService {
 
           if (last && last.monitordate === cur.monitordate) {
             return acc.concat([
-              { ...last, [cur.itemengname]: cur.concentration },
+              { ...last, [cur.itemengname]: Number(cur.concentration) },
             ]);
           }
 
           return acc.concat({
             monitordate: cur.monitordate,
-            [cur.itemengname]: cur.concentration,
+            [cur.itemengname]: Number(cur.concentration),
           });
         }, [])
         .filter((item) => Object.values(item).length === pollutants + 1);
