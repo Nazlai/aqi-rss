@@ -1,0 +1,26 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: rss-aqi-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  backend:
+    image: rss-aqi-backend-dev
+    build: 
+      context: .
+      target: build-stage
+      dockerfile: ./Dockerfile
+    command: npm run dev
+    volumes:
+      - ./src:/app/src
+      - ./nodemon.json:/app/nodemon.json
+    ports:
+      - "8080:8080"
+    env_file: "./.env"
+
+volumes:
+  redis-data:
+    driver: local
