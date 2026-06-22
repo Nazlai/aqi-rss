@@ -4,6 +4,7 @@ import { LOCATION_API, DISTRICT_LOOKUP } from "./constant";
 import { DISTRICT, Location, Pollutant, RAW_LOCATION } from "./enum";
 import { Aqi, AqiData, HourlyAqi, HourlyAqiData } from "./types";
 import { aqiDataConverter } from "./utils/aqiDataConverter";
+import { RedisClientType } from "redis";
 
 const HOURS_IN_DAY = 24;
 
@@ -33,9 +34,19 @@ const INITIAL_LOCATION_MAP = {
 };
 
 export class AqiService {
-  constructor() {}
+  cacheManager: RedisClientType;
+
+  constructor(cacheManager: RedisClientType) {
+    this.cacheManager = cacheManager;
+  }
 
   async getLatestAqi() {
+    const cache = await this.cacheManager.get("aqx_p_432");
+
+    if (cache) {
+      return JSON.parse(cache);
+    }
+
     try {
       const res = await axiosClient.get<Array<Aqi>>("/aqx_p_432");
       const data = res.data.reduce(
@@ -72,6 +83,8 @@ export class AqiService {
         INITIAL_LOCATION_MAP,
       );
 
+      this.cacheManager.set("aqx_p_432", JSON.stringify(data));
+
       return data;
     } catch (error) {
       throw error;
@@ -79,6 +92,12 @@ export class AqiService {
   }
 
   async getAqiByStationName(location: Location) {
+    const cache = await this.cacheManager.get(location);
+
+    if (cache) {
+      return JSON.parse(cache);
+    }
+
     try {
       const locationId = LOCATION_API[location];
 
@@ -116,12 +135,16 @@ export class AqiService {
         }, [])
         .filter((item) => Object.values(item).length === pollutants + 1);
 
-      return {
+      const data = {
         result: mergedData,
         total: mergedData.length,
         county: head.county,
         sitename: head.sitename,
       };
+
+      this.cacheManager.set(location, JSON.stringify(data));
+
+      return data;
     } catch (error) {
       throw error;
     }
