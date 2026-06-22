@@ -18,7 +18,8 @@
     "cors": "^2.8.6",
     "cron": "^4.4.0",
     "express": "^5.2.1",
-    "fast-xml-builder": "^1.2.0"
+    "fast-xml-builder": "^1.2.0",
+    "redis": "^6.0.0"
   },
   "devDependencies": {
     "@jest/globals": "^30.4.1",
