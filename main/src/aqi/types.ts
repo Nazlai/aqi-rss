@@ -1,4 +1,4 @@
-import { Pollutant, RAW_LOCATION } from "./enum";
+import { AirQuality, DISTRICT, Pollutant, RAW_LOCATION } from "./enum";
 
 export interface Aqi {
   siteid: string;
@@ -30,16 +30,20 @@ export interface Aqi {
 export interface AqiData {
   siteid: string;
   sitename: string;
-  county: RAW_LOCATION;
-  aqi: string;
+  county: DISTRICT;
+  aqi: number | null;
   pollutant: string;
-  status: string;
-  "pm2.5": string;
-  no2: string;
-  pm10: string;
-  o3: string;
-  co: string;
-  so2: string;
+  status: AirQuality;
+  "pm2.5": number | null;
+  no2: number | null;
+  pm10: number | null;
+  o3: number | null;
+  co: number | null;
+  so2: number | null;
+  "pm2.5_avg": number | null;
+  pm10_avg: number | null;
+  co_8hr: number | null;
+  o3_8hr: number | null;
   publishtime: string;
   longitude: string;
   latitude: string;
@@ -59,10 +63,10 @@ export interface HourlyAqi {
 
 export interface HourlyAqiData {
   monitordate: string;
-  [Pollutant.PARTICULATE_MATTER_TWO_POINT_FIVE]: string;
-  [Pollutant.NITOGEN_DIOXIDE]: string;
-  [Pollutant.PARTICULATE_MATTER_TEN]: string;
-  [Pollutant.OZONE]: string;
-  [Pollutant.CARBON_MONOXIDE]: string;
-  [Pollutant.SULFUR_DIOXIDE]: string;
+  [Pollutant.PARTICULATE_MATTER_TWO_POINT_FIVE]: number | null;
+  [Pollutant.NITOGEN_DIOXIDE]: number | null;
+  [Pollutant.PARTICULATE_MATTER_TEN]: number | null;
+  [Pollutant.OZONE]: number | null;
+  [Pollutant.CARBON_MONOXIDE]: number | null;
+  [Pollutant.SULFUR_DIOXIDE]: number | null;
 }

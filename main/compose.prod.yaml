@@ -1,0 +1,11 @@
+services:
+  backend:
+    image: rss-aqi-backend-prod
+    build: 
+      context: .
+      target: production
+      dockerfile: ./Dockerfile
+    command: node build/src/server.js
+    ports:
+      - "8080:8080"
+    env_file: "./.env"

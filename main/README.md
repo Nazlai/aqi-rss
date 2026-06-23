@@ -1,10 +1,25 @@
 ## Quick Start
 
+- make sure you have docker on your machine
 - create an account at [Ministry of Environment](https://data.moenv.gov.tw/paradigm) for your api key
 - create a .env file in `main` directory root
 
 ```
 API_KEY="YOUR KEY"
+API_ENDPOINT="MOE AQI ENDPOINT"
+REDIS_CONNECTION="YOUR REDIS CONNECTION STRING"
+```
+
+execute this command to start dockerized express app and redis image
+
+```
+make up
+```
+
+and this command to stop docker container
+
+```
+make down
 ```
 
 ## Folder structure
