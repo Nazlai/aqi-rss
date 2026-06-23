@@ -1,6 +1,10 @@
 services:
   redis:
     image: redis:latest
+    restart: always
+    env_file:
+      - ./.env.redis
+    command: /bin/sh -c "redis-server --loglevel warning --requirepass $$REDIS_HOST_PASSWORD"
     container_name: rss-aqi-redis
     ports:
       - "6379:6379"
