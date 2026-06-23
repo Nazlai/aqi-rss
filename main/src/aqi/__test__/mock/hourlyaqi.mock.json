@@ -8,7 +8,7 @@
     "itemengname": "PM2.5",
     "itemunit": "μg/m3",
     "monitordate": "2026-06-05 12:00",
-    "concentration": "6"
+    "concentration": "x"
   },
   {
     "siteid": "12",
@@ -85,7 +85,7 @@
     "itemengname": "NO2",
     "itemunit": "ppb",
     "monitordate": "2026-06-05 11:00",
-    "concentration": "18"
+    "concentration": "x"
   },
   {
     "siteid": "12",
@@ -96,7 +96,7 @@
     "itemengname": "PM10",
     "itemunit": "μg/m3",
     "monitordate": "2026-06-05 11:00",
-    "concentration": "7"
+    "concentration": "x"
   },
   {
     "siteid": "12",
@@ -173,7 +173,7 @@
     "itemengname": "O3",
     "itemunit": "ppb",
     "monitordate": "2026-06-05 10:00",
-    "concentration": "12"
+    "concentration": "x"
   },
   {
     "siteid": "12",
@@ -184,7 +184,7 @@
     "itemengname": "CO",
     "itemunit": "ppm",
     "monitordate": "2026-06-05 10:00",
-    "concentration": "0.47"
+    "concentration": "x"
   },
   {
     "siteid": "12",
@@ -195,7 +195,7 @@
     "itemengname": "SO2",
     "itemunit": "ppb",
     "monitordate": "2026-06-05 10:00",
-    "concentration": "0.3"
+    "concentration": "x"
   },
   {
     "siteid": "12",
