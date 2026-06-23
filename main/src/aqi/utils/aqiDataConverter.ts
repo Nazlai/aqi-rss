@@ -14,6 +14,16 @@ const citiesRegex = new RegExp(
   "g",
 );
 
+function castToNumber(value: string): number | null {
+  const castedValue = Number(value);
+
+  if (!value || Number.isNaN(castedValue)) {
+    return null;
+  }
+
+  return castedValue;
+}
+
 export function aqiDataConverter(value: Aqi): AqiData {
   const siteName = value.sitename.replace(citiesRegex, "");
 
@@ -21,19 +31,19 @@ export function aqiDataConverter(value: Aqi): AqiData {
     siteid: value.siteid,
     sitename: capitalize(siteName),
     county: parseDistrict(value.county),
-    aqi: value.aqi,
+    aqi: castToNumber(value.aqi),
     pollutant: value.pollutant,
     status: parseAirQuality(value.status),
-    "pm2.5": value["pm2.5"],
-    no2: value.no2,
-    pm10: value.pm10,
-    o3: value.o3,
-    co: value.co,
-    so2: value.so2,
-    "pm2.5_avg": value["pm2.5_avg"],
-    pm10_avg: value.pm10_avg,
-    co_8hr: value.co_8hr,
-    o3_8hr: value.o3_8hr,
+    "pm2.5": castToNumber(value["pm2.5"]),
+    no2: castToNumber(value.no2),
+    pm10: castToNumber(value.pm10),
+    o3: castToNumber(value.o3),
+    co: castToNumber(value.co),
+    so2: castToNumber(value.so2),
+    "pm2.5_avg": castToNumber(value["pm2.5_avg"]),
+    pm10_avg: castToNumber(value.pm10_avg),
+    co_8hr: castToNumber(value.co_8hr),
+    o3_8hr: castToNumber(value.o3_8hr),
     publishtime: value.publishtime,
     longitude: value.longitude,
     latitude: value.latitude,
