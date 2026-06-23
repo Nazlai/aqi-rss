@@ -6,8 +6,6 @@ services:
       - ./.env.redis
     command: /bin/sh -c "redis-server --loglevel warning --requirepass $$REDIS_HOST_PASSWORD"
     container_name: rss-aqi-redis
-    ports:
-      - "6379:6379"
     volumes:
       - redis-data:/data
 
