@@ -1,4 +1,5 @@
 import { axiosClient } from "../utils/axios";
+import { getCacheTime } from "../utils/getCacheTime";
 import { EmptyResponseError, PathNotFoundError } from "./aqi.error";
 import { LOCATION_API, DISTRICT_LOOKUP } from "./constant";
 import { DISTRICT, Location, Pollutant, RAW_LOCATION } from "./enum";
@@ -84,7 +85,9 @@ export class AqiService {
         INITIAL_LOCATION_MAP,
       );
 
-      this.cacheManager.set("aqx_p_432", JSON.stringify(data));
+      this.cacheManager.set("aqx_p_432", JSON.stringify(data), {
+        expiration: { type: "EX", value: getCacheTime(60) },
+      });
 
       return data;
     } catch (error) {
@@ -146,7 +149,12 @@ export class AqiService {
         sitename: head.sitename,
       };
 
-      this.cacheManager.set(location, JSON.stringify(data));
+      this.cacheManager.set(location, JSON.stringify(data), {
+        expiration: {
+          type: "EX",
+          value: getCacheTime(60),
+        },
+      });
 
       return data;
     } catch (error) {
