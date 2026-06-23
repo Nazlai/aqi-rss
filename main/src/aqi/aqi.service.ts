@@ -5,6 +5,7 @@ import { DISTRICT, Location, Pollutant, RAW_LOCATION } from "./enum";
 import { Aqi, AqiData, HourlyAqi, HourlyAqiData } from "./types";
 import { aqiDataConverter } from "./utils/aqiDataConverter";
 import { RedisClientType } from "redis";
+import { hourlyAqiDataConverter } from "./utils/hourlyAqiDataConverter";
 
 const HOURS_IN_DAY = 24;
 
@@ -124,13 +125,16 @@ export class AqiService {
 
           if (last && last.monitordate === cur.monitordate) {
             return acc.concat([
-              { ...last, [cur.itemengname]: Number(cur.concentration) },
+              {
+                ...last,
+                [cur.itemengname]: hourlyAqiDataConverter(cur.concentration),
+              },
             ]);
           }
 
           return acc.concat({
             monitordate: cur.monitordate,
-            [cur.itemengname]: Number(cur.concentration),
+            [cur.itemengname]: hourlyAqiDataConverter(cur.concentration),
           });
         }, [])
         .filter((item) => Object.values(item).length === pollutants + 1);
