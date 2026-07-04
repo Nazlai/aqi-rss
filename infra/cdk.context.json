@@ -1,0 +1,21 @@
+{
+  "availability-zones:account=064137888589:region=ap-northeast-1": [
+    "ap-northeast-1a",
+    "ap-northeast-1c",
+    "ap-northeast-1d"
+  ],
+  "cc-api-provider:account=064137888589:expectedMatchCount=exactly-one:propertiesToReturn.0=PrefixListId:propertyMatch.PrefixListName=com.amazonaws.global.cloudfront.origin-facing:region=ap-northeast-1:typeName=AWS$:$:EC2$:$:PrefixList": [
+    {
+      "PrefixListId": "pl-58a04531",
+      "Identifier": "pl-58a04531"
+    }
+  ],
+  "hosted-zone:account=064137888589:domainName=tageszeiten.com:region=us-east-1": {
+    "Id": "/hostedzone/Z002893116ARO150BEA7C",
+    "Name": "tageszeiten.com."
+  },
+  "hosted-zone:account=064137888589:domainName=tageszeiten.com:region=ap-northeast-1": {
+    "Id": "/hostedzone/Z002893116ARO150BEA7C",
+    "Name": "tageszeiten.com."
+  }
+}
