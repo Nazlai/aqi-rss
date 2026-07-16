@@ -5,6 +5,10 @@ import * as ecs from "aws-cdk-lib/aws-ecs";
 // import * as ecr from "aws-cdk-lib/aws-ecr";
 import {
   Distribution,
+  Function,
+  FunctionCode,
+  FunctionEventType,
+  FunctionRuntime,
   OriginProtocolPolicy,
   ViewerProtocolPolicy,
 } from "aws-cdk-lib/aws-cloudfront";
@@ -138,6 +142,23 @@ export class InfraStack extends cdk.Stack {
       props.certificateArn,
     );
 
+    const requestFunction = new Function(this, "AqiRssViewerRequestFunction", {
+      code: FunctionCode.fromInline(`
+        function handler(event) {
+          var allowed = /^\\/(api\\/|health$|static\\/)/
+          var uri = event.request.uri
+
+          if(!allowed.test(uri)) {
+            return {statusCode:403, statusDescription: 'Forbidden'}
+          }
+
+          return event.request
+        }
+        `),
+      functionName: "aqi_rss_request_filter",
+      runtime: FunctionRuntime.JS_2_0,
+    });
+
     const distribution = new Distribution(this, "AqiRssDistribution", {
       defaultBehavior: {
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -145,6 +166,12 @@ export class InfraStack extends cdk.Stack {
           httpPort: 8080,
           protocolPolicy: OriginProtocolPolicy.HTTP_ONLY,
         }),
+        functionAssociations: [
+          {
+            eventType: FunctionEventType.VIEWER_REQUEST,
+            function: requestFunction,
+          },
+        ],
       },
       additionalBehaviors: {
         "static/*": {
