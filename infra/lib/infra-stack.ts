@@ -3,15 +3,7 @@ import { Construct } from "constructs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as ecs from "aws-cdk-lib/aws-ecs";
 // import * as ecr from "aws-cdk-lib/aws-ecr";
-import {
-  Distribution,
-  Function,
-  FunctionCode,
-  FunctionEventType,
-  FunctionRuntime,
-  OriginProtocolPolicy,
-  ViewerProtocolPolicy,
-} from "aws-cdk-lib/aws-cloudfront";
+import * as cf from "aws-cdk-lib/aws-cloudfront";
 import { S3BucketOrigin, VpcOrigin } from "aws-cdk-lib/aws-cloudfront-origins";
 import { ManagedPolicy, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
@@ -142,8 +134,11 @@ export class InfraStack extends cdk.Stack {
       props.certificateArn,
     );
 
-    const requestFunction = new Function(this, "AqiRssViewerRequestFunction", {
-      code: FunctionCode.fromInline(`
+    const requestFunction = new cf.Function(
+      this,
+      "AqiRssViewerRequestFunction",
+      {
+        code: cf.FunctionCode.fromInline(`
         function handler(event) {
           var allowed = /^\\/(api\\/|health$|static\\/)/
           var uri = event.request.uri
@@ -155,27 +150,28 @@ export class InfraStack extends cdk.Stack {
           return event.request
         }
         `),
-      functionName: "aqi_rss_request_filter",
-      runtime: FunctionRuntime.JS_2_0,
-    });
+        functionName: "aqi_rss_request_filter",
+        runtime: cf.FunctionRuntime.JS_2_0,
+      },
+    );
 
-    const distribution = new Distribution(this, "AqiRssDistribution", {
+    const distribution = new cf.Distribution(this, "AqiRssDistribution", {
       defaultBehavior: {
-        viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         origin: VpcOrigin.withEc2Instance(ec2Instance, {
           httpPort: 8080,
-          protocolPolicy: OriginProtocolPolicy.HTTP_ONLY,
+          protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY,
         }),
         functionAssociations: [
           {
-            eventType: FunctionEventType.VIEWER_REQUEST,
+            eventType: cf.FunctionEventType.VIEWER_REQUEST,
             function: requestFunction,
           },
         ],
       },
       additionalBehaviors: {
         "static/*": {
-          viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+          viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
           origin: S3BucketOrigin.withOriginAccessControl(bucket),
         },
       },
