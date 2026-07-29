@@ -176,6 +176,14 @@ export class InfraStack extends cdk.Stack {
       },
     );
 
+    const cachePolicy = new cf.CachePolicy(
+      this,
+      "AqiRssDistributionCachePolicy",
+      {
+        queryStringBehavior: cf.CacheQueryStringBehavior.allowList("location"),
+      },
+    );
+
     const distribution = new cf.Distribution(this, "AqiRssDistribution", {
       defaultBehavior: {
         viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -183,6 +191,7 @@ export class InfraStack extends cdk.Stack {
           httpPort: 8080,
           protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY,
         }),
+        cachePolicy: cachePolicy,
         functionAssociations: [
           {
             eventType: cf.FunctionEventType.VIEWER_REQUEST,
