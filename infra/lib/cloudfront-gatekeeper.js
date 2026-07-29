@@ -1,0 +1,106 @@
+const locations = {
+  ZHONGSHAN: "ZHONGSHAN",
+  YANGMING: "YANGMING",
+  DATONG: "DATONG",
+  SONGSHAN: "SONGSHAN",
+  GUTING: "GUTING",
+  WANHUA: "WANHUA",
+  SHILIN: "SHILIN",
+  SHULIN: "SHULIN",
+  FUGUEICAPE: "FUGUEICAPE",
+  YONGHE: "YONGHE",
+  SANCHONG: "SANCHONG",
+  TAMSUI: "TAMSUI",
+  LINKOU: "LINKOU",
+  CAILIAO: "CAILIAO",
+  XINZHUANG: "XINZHUANG",
+  BANQIAO: "BANQIAO",
+  TUCHENG: "TUCHENG",
+  XINDIAN: "XINDIAN",
+  XIZHI: "XIZHI",
+  KEELUNG: "KEELUNG",
+  ZHONGLI: "ZHONGLI",
+  LONGTAN: "LONGTAN",
+  PINGZHEN: "PINGZHEN",
+  GUANYIN: "GUANYIN",
+  DAYUAN: "DAYUAN",
+  TAOYUAN: "TAOYUAN",
+  HSINCHU: "HSINCHU",
+  ZHUDONG: "ZHUDONG",
+  HUKOU: "HUKOU",
+  SANYI: "SANYI",
+  MIAOLI: "MIAOLI",
+  TOUFEN: "TOUFEN",
+  TAIWAN_AVENUE: "TAIWAN_AVENUE",
+  XITUN: "XITUN",
+  ZHONGMING: "ZHONGMING",
+  DALI: "DALI",
+  SHALU: "SHALU",
+  FENGYUAN: "FENGYUAN",
+  PULI: "PULI",
+  ZHUSHAN: "ZHUSHAN",
+  NANTOU: "NANTOU",
+  LUGU: "LUGU",
+  YUANLIN: "YUANLIN",
+  DACHENG: "DACHENG",
+  ERLIN: "ERLIN",
+  XIANXI: "XIANXI",
+  CHANGHUA: "CHANGHUA",
+  MAILIAO: "MAILIAO",
+  TAIXI: "TAIXI",
+  LUNBEI: "LUNBEI",
+  DOULIU: "DOULIU",
+  CHIAYI: "CHIAYI",
+  PUZI: "PUZI",
+  XINGANG: "XINGANG",
+  LINSEN: "LINSEN",
+  TAINAN: "TAINAN",
+  ANNAN: "ANNAN",
+  SHANHUA: "SHANHUA",
+  XINYING: "XINYING",
+  FUXING: "FUXING",
+  XIAOGANG: "XIAOGANG",
+  QIANZHEN: "QIANZHEN",
+  QIANJIN: "QIANJIN",
+  ZUOYING: "ZUOYING",
+  NANZI: "NANZI",
+  LINYUAN: "LINYUAN",
+  DALIAO: "DALIAO",
+  FENGSHAN: "FENGSHAN",
+  RENWU: "RENWU",
+  QIAOTOU: "QIAOTOU",
+  MEINONG: "MEINONG",
+  FANGSHAN: "FANGSHAN",
+  LIUQIU: "LIUQIU",
+  HENGCHUN: "HENGCHUN",
+  CHAOZHOU: "CHAOZHOU",
+  PNGTUNG: "PINGTUNG",
+  DONGSHAN: "DONGSHAN",
+  YILAN: "YILAN",
+  HUALIEN: "HUALIEN",
+  TAITUNG: "TAITUNG",
+  GUANSHAN: "GUANSHAN",
+  MAGONG: "MAGONG",
+  KINMEN: "KINMEN",
+  MATSU: "MATSU",
+};
+
+function handler(event) {
+  const allowed = /^\/(api\/aqi$|health|static\))/;
+  const uri = event.request.uri;
+  const qs = event.request.querystring;
+
+  if (allowed.test(uri)) {
+    return event.request;
+  }
+
+  if (
+    uri === "/api/aqi/hourly" &&
+    qs.location &&
+    locations[qs.location.value]
+  ) {
+    return event.request;
+  }
+
+  return { statusCode: 403, statusDescription: "Forbidden" };
+}

@@ -1,16 +1,22 @@
 import * as cdk from "aws-cdk-lib/core";
 import { Construct } from "constructs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as ecs from "aws-cdk-lib/aws-ecs";
-// import * as ecr from "aws-cdk-lib/aws-ecr";
+import * as ecr from "aws-cdk-lib/aws-ecr";
 import * as cf from "aws-cdk-lib/aws-cloudfront";
 import { S3BucketOrigin, VpcOrigin } from "aws-cdk-lib/aws-cloudfront-origins";
-import { ManagedPolicy, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
+import {
+  Effect,
+  ManagedPolicy,
+  PolicyStatement,
+  Role,
+  ServicePrincipal,
+} from "aws-cdk-lib/aws-iam";
 import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { ARecord, HostedZone, RecordTarget } from "aws-cdk-lib/aws-route53";
 import { domain, domainName, subDomain } from "./constants";
 import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
 import * as s3 from "aws-cdk-lib/aws-s3";
+import path from "path";
 
 interface InfraStackProps extends cdk.StackProps {
   certificateArn: string;
@@ -39,7 +45,10 @@ export class InfraStack extends cdk.Stack {
 
     // fixme
     // pull docker image from ecr
-    // const repository = new ecr.Repository(this, "AqiRssRepository");
+    const repository = new ecr.Repository(this, "AqiRssRepository", {
+      emptyOnDelete: true,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
 
     const vpc = new ec2.Vpc(this, "AqiRssVpc", {
       vpcName: "aqi-rss-vpc",
@@ -64,24 +73,23 @@ export class InfraStack extends cdk.Stack {
       enforceSSL: true,
       versioned: false,
       encryption: s3.BucketEncryption.S3_MANAGED,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+    });
+
+    const deploymentBucket = new s3.Bucket(this, "AqiRssDeploymentBucket", {
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      enforceSSL: true,
+      versioned: false,
+      encryption: s3.BucketEncryption.S3_MANAGED,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
     });
 
     natProvider.connections.allowFrom(
       ec2.Peer.ipv4(vpc.vpcCidrBlock),
       ec2.Port.allTraffic(),
     );
-
-    // new ec2.InterfaceVpcEndpoint(this, "EcrVpcEndpoint", {
-    //   vpc,
-    //   service: ec2.InterfaceVpcEndpointAwsService.ECR,
-    //   subnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-    // });
-
-    // new ec2.InterfaceVpcEndpoint(this, "EcrDockerVpcEndpoint", {
-    //   vpc,
-    //   service: ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER,
-    //   subnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-    // });
 
     new ec2.GatewayVpcEndpoint(this, "S3GatewayEndpoint", {
       vpc,
@@ -95,14 +103,34 @@ export class InfraStack extends cdk.Stack {
       ],
     });
 
+    const { region, account } = cdk.Stack.of(this);
+
+    role.addToPolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: [
+          "ssm:GetParametersByPath",
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+        ],
+        resources: [
+          `arn:aws:ssm:${region}:${account}:parameter/aqi`,
+          `arn:aws:ssm:${region}:${account}:parameter/aqi/*`,
+        ],
+      }),
+    );
+
+    repository.grantPull(role);
+    deploymentBucket.grantRead(role);
+
     const userData = ec2.UserData.forLinux();
 
     userData.addCommands(
       "yum update -y",
-      "systemctl enable --now docker",
+      "dnf install -y docker",
       "systemctl start docker",
-      "docker pull nginx",
-      "docker run -d -p 8080:80 nginx",
+      `curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`,
+      "chmod +x /usr/local/bin/docker-compose",
     );
 
     const ec2Instance = new ec2.Instance(this, "AqiRssEc2Instance", {
@@ -111,9 +139,11 @@ export class InfraStack extends cdk.Stack {
         ec2.InstanceClass.T4G,
         ec2.InstanceSize.NANO,
       ),
-      machineImage: ecs.EcsOptimizedImage.amazonLinux2023(
-        ecs.AmiHardwareType.ARM,
-      ),
+      machineImage: ec2.MachineImage.latestAmazonLinux2023({
+        edition: ec2.AmazonLinuxEdition.STANDARD,
+        cpuType: ec2.AmazonLinuxCpuType.ARM_64,
+        cachedInContext: true,
+      }),
       creditSpecification: ec2.CpuCredits.STANDARD,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       userData,
@@ -138,18 +168,9 @@ export class InfraStack extends cdk.Stack {
       this,
       "AqiRssViewerRequestFunction",
       {
-        code: cf.FunctionCode.fromInline(`
-        function handler(event) {
-          var allowed = /^\\/(api\\/|health$|static\\/)/
-          var uri = event.request.uri
-
-          if(!allowed.test(uri)) {
-            return {statusCode:403, statusDescription: 'Forbidden'}
-          }
-
-          return event.request
-        }
-        `),
+        code: cf.FunctionCode.fromFile({
+          filePath: path.join(__dirname, "cloudfront-gatekeeper.js"),
+        }),
         functionName: "aqi_rss_request_filter",
         runtime: cf.FunctionRuntime.JS_2_0,
       },
