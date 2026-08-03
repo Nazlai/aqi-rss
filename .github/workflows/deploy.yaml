@@ -19,7 +19,7 @@ concurrency:
 jobs:
   deploy:
     environment: prod
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
