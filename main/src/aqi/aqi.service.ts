@@ -111,7 +111,7 @@ export class AqiService {
       const locationId = LOCATION_API[location];
 
       if (!locationId) {
-        throw new PathNotFoundError();
+        throw new PathNotFoundError("", location);
       }
 
       const endpoint = `/aqx_p_${locationId}`;

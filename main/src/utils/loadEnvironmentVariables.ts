@@ -30,5 +30,6 @@ function loadLocalEnvironmentVariables() {
     API_KEY: process.env.API_KEY!,
     PORT: process.env.PORT!,
     REDIS_CONNECTION: process.env.REDIS_CONNECTION!,
+    SENTRY_DSN: process.env.SENTRY_DSN!,
   };
 }
