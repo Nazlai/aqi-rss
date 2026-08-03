@@ -1,6 +1,14 @@
 services:
+  redis:
+    env_file:
+      - path: ./.env.redis
+        required: false
+    environment:
+      - REDIS_HOST_PASSWORD=${REDIS_HOST_PASSWORD}
+    command: /bin/sh -c "redis-server --maxmemory 100mb --maxmemory-policy allkeys-lru --loglevel warning --requirepass $$REDIS_HOST_PASSWORD"
+
   backend:
-    image: rss-aqi-backend-prod
+    image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}
     build: 
       context: .
       target: production
@@ -8,5 +16,9 @@ services:
     command: node build/src/server.js
     ports:
       - "8080:8080"
-    env_file: "./.env"
+    env_file: 
+      - path: ./.env
+        required: false
+    environment:
+      - AWS_REGION=${AWS_REGION}
     volumes: !reset []
