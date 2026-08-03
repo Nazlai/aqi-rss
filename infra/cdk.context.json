@@ -17,5 +17,6 @@
   "hosted-zone:account=064137888589:domainName=tageszeiten.com:region=ap-northeast-1": {
     "Id": "/hostedzone/Z002893116ARO150BEA7C",
     "Name": "tageszeiten.com."
-  }
+  },
+  "ssm:account=064137888589:parameterName=/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-arm64:region=ap-northeast-1": "ami-05151a526896cf708"
 }
