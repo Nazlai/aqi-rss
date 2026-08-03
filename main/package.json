@@ -11,9 +11,12 @@
     "start": "node build/src/server.js",
     "dev": "nodemon src/server.ts",
     "test": "vitest",
-    "prepare": "cd .. && husky main/.husky"
+    "prepare": "cd .. && husky main/.husky",
+    "lint": "eslint",
+    "check-types": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@aws-sdk/client-ssm": "^3.1092.0",
     "axios": "^1.17.0",
     "cors": "^2.8.6",
     "cron": "^4.4.0",

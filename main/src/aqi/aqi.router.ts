@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { AqiController } from "./aqi.controller";
 import { AqiService } from "./aqi.service";
-import { client } from "../cache-manager/redisClient";
+import { redisClient } from "../cache-manager/redisClient";
+import { axiosModule } from "../utils/axios";
 
 export const aqiRouter = Router();
 
-const service = new AqiService(client);
+const service = new AqiService(redisClient.getClient, axiosModule.getClient);
 const controller = new AqiController(service);
 
 aqiRouter.get("/", controller.getLatestAqi.bind(controller));

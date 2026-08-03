@@ -1,3 +1,5 @@
-import { app } from "./app";
+import { bootstrap } from "./app";
 
-app.listen(process.env.PORT);
+bootstrap().then(({ app, config }) => {
+  app.listen(config.PORT);
+});
