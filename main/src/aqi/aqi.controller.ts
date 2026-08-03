@@ -24,7 +24,7 @@ export class AqiController {
     } catch (error) {
       // FIXME
       // improve error handling
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -40,7 +40,7 @@ export class AqiController {
     } catch (error) {
       // FIXME
       // improve error handling
-      console.log(error);
+      console.error(error);
       return res.status(404).send({ message: "not found" });
     }
   }

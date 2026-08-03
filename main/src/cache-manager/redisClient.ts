@@ -26,7 +26,7 @@ class RedisClient {
 
     this.client = createClient({ url: redisConnection });
     this.client.on("error", (err) => {
-      console.log("redis client error", err);
+      console.error("redis client error", err);
     });
   }
 
