@@ -56,7 +56,7 @@ jobs:
           REPOSITORY: ${{ vars.ECR_REPO }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker-compose -f compose.dev.yaml -f compose.prod.yaml build
+          docker compose -f compose.dev.yaml -f compose.prod.yaml build
           docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:latest
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker push $REGISTRY/$REPOSITORY:latest
