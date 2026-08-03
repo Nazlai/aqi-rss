@@ -4,7 +4,7 @@ services:
     restart: always
     env_file:
       - ./.env.redis
-    command: /bin/sh -c "redis-server --loglevel warning --requirepass $$REDIS_HOST_PASSWORD"
+    command: /bin/sh -c "redis-server --maxmemory 100mb --maxmemory-policy allkeys-lru --loglevel warning --requirepass $$REDIS_HOST_PASSWORD"
     container_name: rss-aqi-redis
     volumes:
       - redis-data:/data
@@ -21,6 +21,8 @@ services:
       - ./nodemon.json:/app/nodemon.json
     ports:
       - "8080:8080"
+    environment:
+      - DEBUG=${DEBUG:-false}
     env_file: "./.env"
 
 volumes:
