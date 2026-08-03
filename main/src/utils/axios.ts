@@ -1,10 +1,32 @@
-import axios from "axios";
-import { API_ENDPOINT, API_KEY } from "../constants/env";
+import axios, { AxiosInstance } from "axios";
 
-export const axiosClient = axios.create({
-  baseURL: API_ENDPOINT,
-  params: {
-    api_key: API_KEY,
-    language: "en",
-  },
-});
+class AxiosModule {
+  axiosClient: AxiosInstance | null;
+
+  constructor() {
+    this.axiosClient = null;
+
+    this.load = this.load.bind(this);
+    this.getClient = this.getClient.bind(this);
+  }
+
+  load(baseUrl: string, apiKey: string) {
+    this.axiosClient = axios.create({
+      baseURL: baseUrl,
+      params: {
+        api_key: apiKey,
+        language: "en",
+      },
+    });
+  }
+
+  getClient() {
+    if (this.axiosClient) {
+      return this.axiosClient;
+    }
+
+    throw new Error("axios config not loaded");
+  }
+}
+
+export const axiosModule = new AxiosModule();

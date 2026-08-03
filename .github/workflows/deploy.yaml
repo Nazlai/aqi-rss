@@ -1,0 +1,98 @@
+name: deploy to aws
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "main/**"
+      - ".github/workflows/deploy.yaml"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: prod-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment: prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./main
+      - name: Lint and check types
+        run: npm run lint && npm run check-types
+        working-directory: ./main
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          role-session-name: github-to-aws
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Upload docker compose files to s3
+        working-directory: ./main
+        env:
+          S3_DEPLOYMENT_BUCKET: ${{ vars.S3_DEPLOYMENT_BUCKET }}
+        run: |
+          aws s3 cp compose.dev.yaml s3://$S3_DEPLOYMENT_BUCKET/app/compose.dev.yaml
+          aws s3 cp compose.prod.yaml s3://$S3_DEPLOYMENT_BUCKET/app/compose.prod.yaml
+      - name: Build, tag and push image to AWS ECR
+        working-directory: ./main
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ vars.ECR_REPO }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker-compose -f compose.dev.yaml -f compose.prod.yaml build
+          docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:latest
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker push $REGISTRY/$REPOSITORY:latest
+      - name: Update and run docker image with AWS SSM
+        env:
+          EC2_INSTANCE_ID: ${{ vars.EC2_INSTANCE_ID }}
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ vars.ECR_REPO }}
+          IMAGE_TAG: ${{ github.sha }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          S3_DEPLOYMENT_BUCKET: ${{ vars.S3_DEPLOYMENT_BUCKET }}
+        run: |
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "$EC2_INSTANCE_ID" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy to EC2 from github actions" \
+            --parameters commands="[
+            \"mkdir -p /opt/app \",
+            \"aws s3 sync s3://$S3_DEPLOYMENT_BUCKET/app /opt/app \",
+            \"cd /opt/app \",
+            \"aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY \",
+            \"export REDIS_HOST_PASSWORD=\$(aws ssm get-parameter --name /aqi/REDIS_HOST_PASSWORD --with-decryption --query Parameter.Value --output text)\",
+            \"export REGISTRY=$REGISTRY REPOSITORY=$REPOSITORY IMAGE_TAG=$IMAGE_TAG AWS_REGION=$AWS_REGION\",
+            \"docker-compose -f compose.dev.yaml -f compose.prod.yaml down \",
+            \"docker-compose -f compose.dev.yaml -f compose.prod.yaml pull && docker-compose -f compose.dev.yaml -f compose.prod.yaml up -d\"
+            ]" \
+            --query "Command.CommandId" \
+            --output text)
+
+            echo "CommandID $COMMAND_ID"
+
+            aws ssm wait command-executed \
+              --command-id "$COMMAND_ID" \
+              --instance-id "$EC2_INSTANCE_ID"
+
+            aws ssm get-command-invocation \
+              --command-id "$COMMAND_ID" \
+              --instance-id "$EC2_INSTANCE_ID"

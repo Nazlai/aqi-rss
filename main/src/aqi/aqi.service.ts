@@ -1,4 +1,3 @@
-import { axiosClient } from "../utils/axios";
 import { getCacheTime } from "../utils/getCacheTime";
 import { EmptyResponseError, PathNotFoundError } from "./aqi.error";
 import { LOCATION_API, DISTRICT_LOOKUP } from "./constant";
@@ -7,6 +6,7 @@ import { Aqi, AqiData, HourlyAqi, HourlyAqiData } from "./types";
 import { aqiDataConverter } from "./utils/aqiDataConverter";
 import { RedisClientType } from "redis";
 import { hourlyAqiDataConverter } from "./utils/hourlyAqiDataConverter";
+import { AxiosInstance } from "axios";
 
 const HOURS_IN_DAY = 24;
 
@@ -36,21 +36,26 @@ const INITIAL_LOCATION_MAP = {
 };
 
 export class AqiService {
-  cacheManager: RedisClientType;
+  cacheManager: () => RedisClientType;
+  axiosClient: () => AxiosInstance;
 
-  constructor(cacheManager: RedisClientType) {
+  constructor(
+    cacheManager: () => RedisClientType,
+    axiosClient: () => AxiosInstance,
+  ) {
     this.cacheManager = cacheManager;
+    this.axiosClient = axiosClient;
   }
 
   async getLatestAqi() {
-    const cache = await this.cacheManager.get("aqx_p_432");
+    const cache = await this.cacheManager().get("aqx_p_432");
 
     if (cache) {
       return JSON.parse(cache);
     }
 
     try {
-      const res = await axiosClient.get<Array<Aqi>>("/aqx_p_432");
+      const res = await this.axiosClient().get<Array<Aqi>>("/aqx_p_432");
       const data = res.data.reduce(
         (acc: Record<Exclude<DISTRICT, DISTRICT.UNKNOWN>, AqiData[]>, cur) => {
           const key = DISTRICT_LOOKUP[cur.county];
@@ -85,7 +90,7 @@ export class AqiService {
         INITIAL_LOCATION_MAP,
       );
 
-      this.cacheManager.set("aqx_p_432", JSON.stringify(data), {
+      this.cacheManager().set("aqx_p_432", JSON.stringify(data), {
         expiration: { type: "EX", value: getCacheTime(60) },
       });
 
@@ -96,7 +101,7 @@ export class AqiService {
   }
 
   async getAqiByStationName(location: Location) {
-    const cache = await this.cacheManager.get(location);
+    const cache = await this.cacheManager().get(location);
 
     if (cache) {
       return JSON.parse(cache);
@@ -111,7 +116,7 @@ export class AqiService {
 
       const endpoint = `/aqx_p_${locationId}`;
       const pollutants = Object.keys(Pollutant).length;
-      const res = await axiosClient.get<Array<HourlyAqi>>(endpoint, {
+      const res = await this.axiosClient().get<Array<HourlyAqi>>(endpoint, {
         params: {
           limit: pollutants * HOURS_IN_DAY,
         },
@@ -149,7 +154,7 @@ export class AqiService {
         sitename: head.sitename,
       };
 
-      this.cacheManager.set(location, JSON.stringify(data), {
+      this.cacheManager().set(location, JSON.stringify(data), {
         expiration: {
           type: "EX",
           value: getCacheTime(60),

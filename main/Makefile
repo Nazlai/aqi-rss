@@ -1,9 +1,9 @@
 up: 
-	docker compose -f compose.dev.yaml up -d
+	DEBUG=true docker compose -f compose.dev.yaml up -d
 
 
 up-prod:
-	docker-compose -f compose.dev.yaml -f compose.prod.yaml up --build -d
+	docker-compose -f compose.dev.yaml -f compose.prod.yaml -f compose.prod.local.yaml up --build -d
 
 
 build-dev:

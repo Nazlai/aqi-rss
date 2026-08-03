@@ -1,25 +1,35 @@
 import express from "express";
 import cors from "cors";
 import { aqiRouter } from "./aqi/aqi.router";
-import { ORIGIN } from "./constants/env";
-import { connectRedis } from "./cache-manager/redisClient";
+import { redisClient } from "./cache-manager/redisClient";
+import { loadEnvironmentVariables } from "./utils/loadEnvironmentVariables";
+import { axiosModule } from "./utils/axios";
 
-export const app = express();
+export async function bootstrap() {
+  const config = await loadEnvironmentVariables("/aqi");
 
-app.use(express.json());
-app.use(
-  cors({
-    origin: ORIGIN,
-  }),
-);
+  axiosModule.load(config.API_ENDPOINT, config.API_KEY);
+  redisClient.load(config.REDIS_CONNECTION);
 
-app.use("/api/aqi", aqiRouter);
+  const app = express();
 
-app.get("/health", (_, res) => {
-  res.send({ status: "healthy" });
-});
+  app.use(express.json());
+  app.use(
+    cors({
+      origin: config.ORIGIN,
+    }),
+  );
 
-connectRedis().catch((err) => {
-  console.log("redis connection failed", err);
-  process.exit(1);
-});
+  app.use("/api/aqi", aqiRouter);
+
+  app.get("/health", (_, res) => {
+    res.send({ status: "healthy" });
+  });
+
+  redisClient.connect().catch((err) => {
+    console.log("redis connection failed", err);
+    process.exit(1);
+  });
+
+  return { app, config };
+}

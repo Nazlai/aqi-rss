@@ -1,0 +1,7 @@
+services:
+  backend:
+    image: rss-api-backend-prod
+    environment:
+      - REDIS_HOST_PASSWORD=${REDIS_HOST_PASSWORD:?export REDIS_HOST_PASSWORD from ssm}
+    volumes: !override
+      - ~/.aws/:/root/.aws:ro
