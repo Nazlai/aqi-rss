@@ -1,0 +1,47 @@
+name: deploy aws infrastructure
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "infra/**"
+      - ".github/workflows/cdk-deploy.yaml"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: prod-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment: prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          role-session-name: github-to-aws
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./infra
+      - name: Deploy via cdk
+        env:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          DOMAIN: ${{ vars.DOMAIN }}
+          DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
+          SUB_DOMAIN: ${{ vars.SUB_DOMAIN }}
+        working-directory: ./infra
+        run: |
+          REGION=$AWS_REGION DOMAIN=$DOMAIN DOMAIN_NAME=$DOMAIN_NAME SUB_DOMAIN=$SUB_DOMAIN npx cdk deploy --all --require-approval never
