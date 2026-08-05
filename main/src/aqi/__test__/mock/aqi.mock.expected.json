@@ -687,7 +687,7 @@
   ],
   "TAICHUNG_CITY": [
     {
-      "sitename": "Taiwan Avenue",
+      "sitename": "Taiwan_Avenue",
       "county": "TAICHUNG_CITY",
       "aqi": 50,
       "pollutant": "",
@@ -816,7 +816,7 @@
   "NANTOU_COUNTY": [
     {
       "sitename": "Lugu",
-      "county": "TAICHUNG_CITY",
+      "county": "NANTOU_COUNTY",
       "aqi": 18,
       "pollutant": "",
       "status": "GOOD",
