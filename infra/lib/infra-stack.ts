@@ -198,6 +198,8 @@ export class InfraStack extends cdk.Stack {
             function: requestFunction,
           },
         ],
+        allowedMethods: cf.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
+        originRequestPolicy: cf.OriginRequestPolicy.CORS_CUSTOM_ORIGIN,
       },
       additionalBehaviors: {
         "static/*": {
