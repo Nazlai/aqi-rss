@@ -68,7 +68,10 @@ export class AqiService {
           ) {
             return {
               ...acc,
-              [DISTRICT.NANTOU_COUNTY]: list.concat(aqiData),
+              [DISTRICT.NANTOU_COUNTY]: list.concat({
+                ...aqiData,
+                county: DISTRICT.NANTOU_COUNTY,
+              }),
             };
           }
 
