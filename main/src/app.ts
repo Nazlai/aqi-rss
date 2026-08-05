@@ -20,6 +20,7 @@ export async function bootstrap() {
   app.use(
     cors({
       origin: config.ORIGIN,
+      allowedHeaders: ["sentry-trace", "baggage"],
     }),
   );
 
