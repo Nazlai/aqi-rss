@@ -43,8 +43,6 @@ export class InfraStack extends cdk.Stack {
       defaultAllowedTraffic: ec2.NatTrafficDirection.OUTBOUND_ONLY,
     });
 
-    // fixme
-    // pull docker image from ecr
     const repository = new ecr.Repository(this, "AqiRssRepository", {
       emptyOnDelete: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,

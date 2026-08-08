@@ -86,7 +86,7 @@ const locations = {
 };
 
 function handler(event) {
-  const allowed = /^\/(api\/aqi$|health|static\))/;
+  const allowed = /^\/(api\/aqi$|health|static)/;
   const uri = event.request.uri;
   const qs = event.request.querystring;
 
