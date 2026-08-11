@@ -34,6 +34,8 @@ jobs:
         run: npm run lint && npm run check-types
         working-directory: ./main
       - name: Run tests
+        env:
+          API_ENDPOINT: "https://mock/api"
         run: npm run test -- --watch=false
         working-directory: ./main
       - name: Configure aws credentials
