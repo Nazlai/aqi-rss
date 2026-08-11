@@ -33,6 +33,9 @@ jobs:
       - name: Lint and check types
         run: npm run lint && npm run check-types
         working-directory: ./main
+      - name: Run tests
+        run: npm run test -- --watch=false
+        working-directory: ./main
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
