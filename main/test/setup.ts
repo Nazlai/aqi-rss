@@ -1,3 +1,6 @@
 import { loadEnvFile } from "node:process";
+import { existsSync } from "node:fs";
 
-loadEnvFile();
+if (existsSync(".env")) {
+  loadEnvFile();
+}
