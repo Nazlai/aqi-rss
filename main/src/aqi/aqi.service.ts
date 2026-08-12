@@ -56,54 +56,50 @@ export class AqiService {
       return { data: JSON.parse(cache), ttl };
     }
 
-    try {
-      const res = await this.axiosClient().get<Array<Aqi>>("/aqx_p_432");
-      const data = res.data.reduce(
-        (acc: Record<Exclude<DISTRICT, DISTRICT.UNKNOWN>, AqiData[]>, cur) => {
-          const key = DISTRICT_LOOKUP[cur.county];
-          const list = acc[key];
-          const aqiData = aqiDataConverter(cur);
+    const res = await this.axiosClient().get<Array<Aqi>>("/aqx_p_432");
+    const data = res.data.reduce(
+      (acc: Record<Exclude<DISTRICT, DISTRICT.UNKNOWN>, AqiData[]>, cur) => {
+        const key = DISTRICT_LOOKUP[cur.county];
+        const list = acc[key];
+        const aqiData = aqiDataConverter(cur);
 
-          if (
-            cur.county === RAW_LOCATION.NANTOU_COUNTY ||
-            /nantou/i.test(cur.sitename)
-          ) {
-            return {
-              ...acc,
-              [DISTRICT.NANTOU_COUNTY]: list.concat({
-                ...aqiData,
-                county: DISTRICT.NANTOU_COUNTY,
-              }),
-            };
-          }
-
-          if (
-            cur.county === RAW_LOCATION.TAICHUNG_CITY &&
-            !/nantou/i.test(cur.sitename)
-          ) {
-            return {
-              ...acc,
-              [DISTRICT.TAICHUNG_CITY]: list.concat(aqiData),
-            };
-          }
-
+        if (
+          cur.county === RAW_LOCATION.NANTOU_COUNTY ||
+          /nantou/i.test(cur.sitename)
+        ) {
           return {
             ...acc,
-            [key]: list.concat(aqiData),
+            [DISTRICT.NANTOU_COUNTY]: list.concat({
+              ...aqiData,
+              county: DISTRICT.NANTOU_COUNTY,
+            }),
           };
-        },
-        INITIAL_LOCATION_MAP,
-      );
-      const cacheDuration = getCacheTime(60);
+        }
 
-      this.cacheManager().set("aqx_p_432", JSON.stringify(data), {
-        expiration: { type: "EX", value: cacheDuration },
-      });
+        if (
+          cur.county === RAW_LOCATION.TAICHUNG_CITY &&
+          !/nantou/i.test(cur.sitename)
+        ) {
+          return {
+            ...acc,
+            [DISTRICT.TAICHUNG_CITY]: list.concat(aqiData),
+          };
+        }
 
-      return { data, ttl: cacheDuration };
-    } catch (error) {
-      throw error;
-    }
+        return {
+          ...acc,
+          [key]: list.concat(aqiData),
+        };
+      },
+      INITIAL_LOCATION_MAP,
+    );
+    const cacheDuration = getCacheTime(60);
+
+    this.cacheManager().set("aqx_p_432", JSON.stringify(data), {
+      expiration: { type: "EX", value: cacheDuration },
+    });
+
+    return { data, ttl: cacheDuration };
   }
 
   async getAqiByStationName(location: Location) {
@@ -115,64 +111,60 @@ export class AqiService {
       return { data: JSON.parse(cache), ttl };
     }
 
-    try {
-      const locationId = LOCATION_API[location];
+    const locationId = LOCATION_API[location];
 
-      if (!locationId) {
-        throw new PathNotFoundError("", location);
-      }
-
-      const endpoint = `/aqx_p_${locationId}`;
-      const pollutants = Object.keys(Pollutant).length;
-      const res = await this.axiosClient().get<Array<HourlyAqi>>(endpoint, {
-        params: {
-          limit: pollutants * HOURS_IN_DAY,
-        },
-      });
-
-      if (!res.data.length) {
-        throw new EmptyResponseError();
-      }
-
-      const head = res.data[0];
-      const mergedData = res.data
-        .reduce((acc: Partial<HourlyAqiData>[], cur) => {
-          const [last] = acc.slice(-1);
-
-          if (last && last.monitordate === cur.monitordate) {
-            return acc.concat([
-              {
-                ...last,
-                [cur.itemengname]: hourlyAqiDataConverter(cur.concentration),
-              },
-            ]);
-          }
-
-          return acc.concat({
-            monitordate: cur.monitordate,
-            [cur.itemengname]: hourlyAqiDataConverter(cur.concentration),
-          });
-        }, [])
-        .filter((item) => Object.values(item).length === pollutants + 1);
-
-      const data = {
-        result: mergedData,
-        total: mergedData.length,
-        county: head.county,
-        sitename: head.sitename,
-      };
-      const cacheDuration = getCacheTime(60);
-
-      this.cacheManager().set(location, JSON.stringify(data), {
-        expiration: {
-          type: "EX",
-          value: cacheDuration,
-        },
-      });
-
-      return { data, ttl: cacheDuration };
-    } catch (error) {
-      throw error;
+    if (!locationId) {
+      throw new PathNotFoundError("", location);
     }
+
+    const endpoint = `/aqx_p_${locationId}`;
+    const pollutants = Object.keys(Pollutant).length;
+    const res = await this.axiosClient().get<Array<HourlyAqi>>(endpoint, {
+      params: {
+        limit: pollutants * HOURS_IN_DAY,
+      },
+    });
+
+    if (!res.data.length) {
+      throw new EmptyResponseError();
+    }
+
+    const head = res.data[0];
+    const mergedData = res.data
+      .reduce((acc: Partial<HourlyAqiData>[], cur) => {
+        const [last] = acc.slice(-1);
+
+        if (last && last.monitordate === cur.monitordate) {
+          return acc.concat([
+            {
+              ...last,
+              [cur.itemengname]: hourlyAqiDataConverter(cur.concentration),
+            },
+          ]);
+        }
+
+        return acc.concat({
+          monitordate: cur.monitordate,
+          [cur.itemengname]: hourlyAqiDataConverter(cur.concentration),
+        });
+      }, [])
+      .filter((item) => Object.values(item).length === pollutants + 1);
+
+    const data = {
+      result: mergedData,
+      total: mergedData.length,
+      county: head.county,
+      sitename: head.sitename,
+    };
+    const cacheDuration = getCacheTime(60);
+
+    this.cacheManager().set(location, JSON.stringify(data), {
+      expiration: {
+        type: "EX",
+        value: cacheDuration,
+      },
+    });
+
+    return { data, ttl: cacheDuration };
   }
 }

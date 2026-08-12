@@ -71,8 +71,9 @@ describe("aqi controller", () => {
         status: vi.fn().mockReturnThis(),
         set: vi.fn(),
       } as unknown as Response;
+      const nextFunction = vi.fn();
 
-      await controller.getAqiByStationName(request, response);
+      await controller.getAqiByStationName(request, response, nextFunction);
 
       expect(response.status).toHaveBeenCalledWith(200);
       expect(response.send).toHaveBeenCalledWith(expectedHourlyAqimock);
@@ -104,8 +105,9 @@ describe("aqi controller", () => {
         send: vi.fn().mockReturnThis(),
         status: vi.fn().mockReturnThis(),
       } as unknown as Response;
+      const nextFunction = vi.fn();
 
-      await controller.getAqiByStationName(request, response);
+      await controller.getAqiByStationName(request, response, nextFunction);
 
       expect(response.status).toHaveBeenLastCalledWith(404);
       expect(response.send).toHaveBeenCalledWith({ message: "not found" });
@@ -136,8 +138,9 @@ describe("aqi controller", () => {
         send: vi.fn().mockReturnThis(),
         status: vi.fn().mockReturnThis(),
       } as unknown as Response;
+      const nextFunction = vi.fn();
 
-      await controller.getAqiByStationName(request, response);
+      await controller.getAqiByStationName(request, response, nextFunction);
 
       expect(response.status).toHaveBeenLastCalledWith(404);
       expect(response.send).toHaveBeenCalledWith({ message: "not found" });
