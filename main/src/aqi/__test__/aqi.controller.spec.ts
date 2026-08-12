@@ -23,7 +23,9 @@ describe("aqi controller", () => {
 
           getAqiByStationName = vi.fn();
 
-          getLatestAqi = vi.fn(() => Promise.resolve(expectedAqimock));
+          getLatestAqi = vi.fn(() =>
+            Promise.resolve({ data: expectedAqimock, ttl: 1000 }),
+          );
         },
       );
       const controller = new AqiController(new MockAqiService());
@@ -31,6 +33,7 @@ describe("aqi controller", () => {
       const response = {
         send: vi.fn().mockReturnThis(),
         status: vi.fn().mockReturnThis(),
+        set: vi.fn(),
       } as unknown as Response;
 
       await controller.getLatestAqi(request, response);
@@ -53,7 +56,7 @@ describe("aqi controller", () => {
           }
 
           getAqiByStationName = vi.fn(() =>
-            Promise.resolve(expectedHourlyAqimock),
+            Promise.resolve({ data: expectedHourlyAqimock, ttl: 1000 }),
           );
 
           getLatestAqi = vi.fn();
@@ -66,6 +69,7 @@ describe("aqi controller", () => {
       const response = {
         send: vi.fn().mockReturnThis(),
         status: vi.fn().mockReturnThis(),
+        set: vi.fn(),
       } as unknown as Response;
 
       await controller.getAqiByStationName(request, response);
