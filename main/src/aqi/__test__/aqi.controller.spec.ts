@@ -5,13 +5,21 @@ import { TAIPEI_CITY } from "../enum";
 import { Request, Response } from "express";
 import expectedAqimock from "./mock/aqi.mock.expected.json";
 import expectedHourlyAqimock from "./mock/hourlyaqi.mock.expected.json";
+import { AxiosInstance } from "axios";
+import { RedisClientType } from "redis";
 
 describe("aqi controller", () => {
   describe("getLatestAqi", () => {
     it("should return 200 with latest aqi on success", async () => {
       const MockAqiService = vi.fn(
         class {
-          constructor() {}
+          cacheManager: () => RedisClientType;
+          axiosClient: () => AxiosInstance;
+
+          constructor() {
+            this.cacheManager = vi.fn();
+            this.axiosClient = vi.fn();
+          }
 
           getAqiByStationName = vi.fn();
 
@@ -36,7 +44,13 @@ describe("aqi controller", () => {
     it("should return 200 with aqi response on success", async () => {
       const MockAqiService = vi.fn(
         class {
-          constructor() {}
+          cacheManager: () => RedisClientType;
+          axiosClient: () => AxiosInstance;
+
+          constructor() {
+            this.cacheManager = vi.fn();
+            this.axiosClient = vi.fn();
+          }
 
           getAqiByStationName = vi.fn(() =>
             Promise.resolve(expectedHourlyAqimock),
@@ -63,10 +77,16 @@ describe("aqi controller", () => {
     it("should return 404 when a PathNotFoundError error is encountered", async () => {
       const MockAqiService = vi.fn(
         class {
-          constructor() {}
+          cacheManager: () => RedisClientType;
+          axiosClient: () => AxiosInstance;
+
+          constructor() {
+            this.cacheManager = vi.fn();
+            this.axiosClient = vi.fn();
+          }
 
           getAqiByStationName = vi.fn(() => {
-            throw new PathNotFoundError();
+            throw new PathNotFoundError("", TAIPEI_CITY.ZHONGSHAN);
           });
 
           getLatestAqi = vi.fn();
@@ -90,8 +110,13 @@ describe("aqi controller", () => {
     it("should return 404 when a EmptyResponseError error is encountered", async () => {
       const MockAqiService = vi.fn(
         class {
-          constructor() {}
+          cacheManager: () => RedisClientType;
+          axiosClient: () => AxiosInstance;
 
+          constructor() {
+            this.cacheManager = vi.fn();
+            this.axiosClient = vi.fn();
+          }
           getAqiByStationName = vi.fn(() => {
             throw new EmptyResponseError();
           });
