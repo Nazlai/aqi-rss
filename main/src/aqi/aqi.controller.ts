@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { AqiService } from "./aqi.service";
 import { Location } from "./enum";
 import { cacheControl } from "../utils/cacheControl";
+import { EmptyResponseError, PathNotFoundError } from "./aqi.error";
 
 export type RequestWithLocation = Request<
   unknown,
@@ -18,20 +19,18 @@ export class AqiController {
   }
 
   async getLatestAqi(_: Request, res: Response) {
-    try {
-      const { data: result, ttl } = await this.service.getLatestAqi();
+    const { data: result, ttl } = await this.service.getLatestAqi();
 
-      res.set("Cache-Control", cacheControl(ttl));
+    res.set("Cache-Control", cacheControl(ttl));
 
-      return res.status(200).send(result);
-    } catch (error) {
-      // FIXME
-      // improve error handling
-      console.error(error);
-    }
+    return res.status(200).send(result);
   }
 
-  async getAqiByStationName(req: RequestWithLocation, res: Response) {
+  async getAqiByStationName(
+    req: RequestWithLocation,
+    res: Response,
+    next: NextFunction,
+  ) {
     try {
       if (req.query.location) {
         const { data: result, ttl } = await this.service.getAqiByStationName(
@@ -43,10 +42,15 @@ export class AqiController {
         return res.status(200).send(result);
       }
     } catch (error) {
-      // FIXME
-      // improve error handling
-      console.error(error);
-      return res.status(404).send({ message: "not found" });
+      if (error instanceof PathNotFoundError) {
+        return res.status(404).send({ message: "not found" });
+      }
+
+      if (error instanceof EmptyResponseError) {
+        return res.status(404).send({ message: "not found" });
+      }
+
+      return next(error);
     }
   }
 }

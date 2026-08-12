@@ -6,6 +6,7 @@ import { loadEnvironmentVariables } from "./utils/loadEnvironmentVariables";
 import { axiosModule } from "./utils/axios";
 import Sentry from "@sentry/node";
 import { initializeSentry } from "./instrument";
+import { errorHandler } from "./middleware/errorHandler";
 
 export async function bootstrap() {
   const config = await loadEnvironmentVariables("/aqi");
@@ -31,6 +32,7 @@ export async function bootstrap() {
   });
 
   Sentry.setupExpressErrorHandler(app);
+  app.use(errorHandler);
 
   redisClient.connect().catch((err) => {
     console.error("redis connection failed", err);
