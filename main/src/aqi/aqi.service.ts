@@ -51,7 +51,9 @@ export class AqiService {
     const cache = await this.cacheManager().get("aqx_p_432");
 
     if (cache) {
-      return JSON.parse(cache);
+      const ttl = await this.cacheManager().ttl("aqx_p_432");
+
+      return { data: JSON.parse(cache), ttl };
     }
 
     try {
@@ -92,12 +94,13 @@ export class AqiService {
         },
         INITIAL_LOCATION_MAP,
       );
+      const cacheDuration = getCacheTime(60);
 
       this.cacheManager().set("aqx_p_432", JSON.stringify(data), {
-        expiration: { type: "EX", value: getCacheTime(60) },
+        expiration: { type: "EX", value: cacheDuration },
       });
 
-      return data;
+      return { data, ttl: cacheDuration };
     } catch (error) {
       throw error;
     }
@@ -107,7 +110,9 @@ export class AqiService {
     const cache = await this.cacheManager().get(location);
 
     if (cache) {
-      return JSON.parse(cache);
+      const ttl = await this.cacheManager().ttl(location);
+
+      return { data: JSON.parse(cache), ttl };
     }
 
     try {
@@ -156,15 +161,16 @@ export class AqiService {
         county: head.county,
         sitename: head.sitename,
       };
+      const cacheDuration = getCacheTime(60);
 
       this.cacheManager().set(location, JSON.stringify(data), {
         expiration: {
           type: "EX",
-          value: getCacheTime(60),
+          value: cacheDuration,
         },
       });
 
-      return data;
+      return { data, ttl: cacheDuration };
     } catch (error) {
       throw error;
     }

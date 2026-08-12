@@ -50,16 +50,16 @@ describe("aqi service", () => {
   describe("getLatestAqi", () => {
     it("parses retrieved aqi data", async () => {
       const service = new AqiService(mockRedis, mockAxiosClient);
-      expect(await service.getLatestAqi()).toEqual(expectedAqimock);
+      expect((await service.getLatestAqi()).data).toEqual(expectedAqimock);
     });
   });
 
   describe("getAqiByStationName", () => {
     it("parses retrieved hourly aqi data", async () => {
       const service = new AqiService(mockRedis, mockAxiosClient);
-      expect(await service.getAqiByStationName(TAIPEI_CITY.ZHONGSHAN)).toEqual(
-        expectedHourlyAqimock,
-      );
+      expect(
+        (await service.getAqiByStationName(TAIPEI_CITY.ZHONGSHAN)).data,
+      ).toEqual(expectedHourlyAqimock);
     });
 
     it("should handle locations with empty api path", async () => {

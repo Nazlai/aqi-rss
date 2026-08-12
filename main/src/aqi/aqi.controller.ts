@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AqiService } from "./aqi.service";
 import { Location } from "./enum";
+import { cacheControl } from "../utils/cacheControl";
 
 export type RequestWithLocation = Request<
   unknown,
@@ -18,7 +19,9 @@ export class AqiController {
 
   async getLatestAqi(_: Request, res: Response) {
     try {
-      const result = await this.service.getLatestAqi();
+      const { data: result, ttl } = await this.service.getLatestAqi();
+
+      res.set("Cache-Control", cacheControl(ttl));
 
       return res.status(200).send(result);
     } catch (error) {
@@ -31,9 +34,11 @@ export class AqiController {
   async getAqiByStationName(req: RequestWithLocation, res: Response) {
     try {
       if (req.query.location) {
-        const result = await this.service.getAqiByStationName(
+        const { data: result, ttl } = await this.service.getAqiByStationName(
           req.query.location,
         );
+
+        res.set("Cache-Control", cacheControl(ttl));
 
         return res.status(200).send(result);
       }

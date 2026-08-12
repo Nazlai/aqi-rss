@@ -13,7 +13,8 @@
     "test": "vitest",
     "prepare": "cd .. && husky main/.husky",
     "lint": "eslint",
-    "check-types": "tsc -p tsconfig.json --noEmit"
+    "check-types": "tsc -p tsconfig.json --noEmit",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@aws-sdk/client-ssm": "^3.1092.0",
@@ -30,6 +31,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.9.1",
+    "@vitest/coverage-v8": "^4.1.8",
     "eslint": "^10.4.1",
     "globals": "^17.6.0",
     "husky": "^9.1.7",

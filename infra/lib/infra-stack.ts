@@ -179,6 +179,8 @@ export class InfraStack extends cdk.Stack {
       "AqiRssDistributionCachePolicy",
       {
         queryStringBehavior: cf.CacheQueryStringBehavior.allowList("location"),
+        minTtl: cdk.Duration.seconds(1200),
+        maxTtl: cdk.Duration.seconds(3600),
       },
     );
 
