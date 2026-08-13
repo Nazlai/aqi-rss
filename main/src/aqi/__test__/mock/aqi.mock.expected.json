@@ -815,27 +815,6 @@
   ],
   "NANTOU_COUNTY": [
     {
-      "sitename": "Lugu",
-      "county": "NANTOU_COUNTY",
-      "aqi": 18,
-      "pollutant": "",
-      "status": "GOOD",
-      "so2": 1.2,
-      "co": 0.1,
-      "o3": 22.3,
-      "pm10": 5,
-      "pm2.5": 2,
-      "no2": 1.4,
-      "co_8hr": 0,
-      "pm2.5_avg": 2.4,
-      "pm10_avg": 6,
-      "o3_8hr": 19.16,
-      "publishtime": "2026-06-05 10:00",
-      "longitude": "120.7944772",
-      "latitude": "23.71867609",
-      "siteid": "203"
-    },
-    {
       "sitename": "Puli",
       "county": "NANTOU_COUNTY",
       "aqi": 23,
@@ -897,6 +876,27 @@
       "longitude": "120.685306",
       "latitude": "23.913",
       "siteid": "36"
+    },
+    {
+      "sitename": "Lugu",
+      "county": "NANTOU_COUNTY",
+      "aqi": 18,
+      "pollutant": "",
+      "status": "GOOD",
+      "so2": 1.2,
+      "co": 0.1,
+      "o3": 22.3,
+      "pm10": 5,
+      "pm2.5": 2,
+      "no2": 1.4,
+      "co_8hr": 0,
+      "pm2.5_avg": 2.4,
+      "pm10_avg": 6,
+      "o3_8hr": 19.16,
+      "publishtime": "2026-06-05 10:00",
+      "longitude": "120.7944772",
+      "latitude": "23.71867609",
+      "siteid": "203"
     }
   ],
   "CHANGHUA_COUNTY": [
