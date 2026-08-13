@@ -52,6 +52,17 @@ describe("aqi service", () => {
       const service = new AqiService(mockRedis, mockAxiosClient);
       expect((await service.getLatestAqi()).data).toEqual(expectedAqimock);
     });
+
+    it("should handle empty list response", async () => {
+      const service = new AqiService(mockRedis, mockAxiosClient);
+      server.use(
+        http.get(`${process.env.API_ENDPOINT}/aqx_p_432`, () => {
+          return HttpResponse.json([]);
+        }),
+      );
+
+      await expect(service.getLatestAqi()).rejects.toThrow(EmptyResponseError);
+    });
   });
 
   describe("getAqiByStationName", () => {
