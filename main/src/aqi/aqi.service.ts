@@ -57,6 +57,11 @@ export class AqiService {
     }
 
     const res = await this.axiosClient().get<Array<Aqi>>("/aqx_p_432");
+
+    if (!res.data.length) {
+      throw new EmptyResponseError();
+    }
+
     const data = res.data.reduce(
       (acc: Record<Exclude<DISTRICT, DISTRICT.UNKNOWN>, AqiData[]>, cur) => {
         const key = DISTRICT_LOOKUP[cur.county];
