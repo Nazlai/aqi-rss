@@ -16,3 +16,9 @@ export class EmptyResponseError extends Error {
     super(message);
   }
 }
+
+export class AqiFetchError extends Error {
+  constructor(message: string, options: ErrorOptions) {
+    super(message, options);
+  }
+}
