@@ -1,6 +1,6 @@
 import { SSM } from "@aws-sdk/client-ssm";
 
-export async function loadEnvironmentVariables(path: string) {
+export async function loadEnvironmentVariables(path?: string) {
   if (process.env.DEBUG === "true") {
     return loadLocalEnvironmentVariables();
   }
@@ -31,5 +31,6 @@ function loadLocalEnvironmentVariables() {
     PORT: process.env.PORT!,
     REDIS_CONNECTION: process.env.REDIS_CONNECTION!,
     SENTRY_DSN: process.env.SENTRY_DSN!,
+    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME!,
   };
 }

@@ -7,6 +7,10 @@ import { axiosModule } from "./utils/axios";
 import Sentry from "@sentry/node";
 import { initializeSentry } from "./instrument";
 import { errorHandler } from "./middleware/errorHandler";
+import { CronJob } from "cron";
+import { scheduleXmlJob } from "./xml/xml.job";
+
+const CronJobWithCheckIn = Sentry.cron.instrumentCron(CronJob, "aqi-rss-cron");
 
 export async function bootstrap() {
   const config = await loadEnvironmentVariables("/aqi");
@@ -39,5 +43,7 @@ export async function bootstrap() {
     process.exit(1);
   });
 
-  return { app, config };
+  const job = scheduleXmlJob(CronJobWithCheckIn);
+
+  return { app, config, job };
 }
