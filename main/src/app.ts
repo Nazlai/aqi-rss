@@ -9,11 +9,12 @@ import { initializeSentry } from "./instrument";
 import { errorHandler } from "./middleware/errorHandler";
 import { CronJob } from "cron";
 import { scheduleXmlJob } from "./xml/xml.job";
+import { SSM } from "@aws-sdk/client-ssm";
 
 const CronJobWithCheckIn = Sentry.cron.instrumentCron(CronJob, "aqi-rss-cron");
 
 export async function bootstrap() {
-  const config = await loadEnvironmentVariables("/aqi");
+  const config = await loadEnvironmentVariables(new SSM(), "/aqi");
 
   axiosModule.load(config.API_ENDPOINT, config.API_KEY);
   redisClient.load(config.REDIS_CONNECTION);

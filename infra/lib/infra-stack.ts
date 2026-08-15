@@ -184,6 +184,10 @@ export class InfraStack extends cdk.Stack {
       },
     );
 
+    const s3CachePolicy = new cf.CachePolicy(this, "AqiRssBucketCachePolicy", {
+      defaultTtl: cdk.Duration.hours(12),
+    });
+
     const distribution = new cf.Distribution(this, "AqiRssDistribution", {
       defaultBehavior: {
         viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -205,6 +209,7 @@ export class InfraStack extends cdk.Stack {
         "static/*": {
           viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
           origin: S3BucketOrigin.withOriginAccessControl(bucket),
+          cachePolicy: s3CachePolicy,
         },
       },
       domainNames: [domain],

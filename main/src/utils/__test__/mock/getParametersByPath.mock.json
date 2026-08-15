@@ -1,0 +1,76 @@
+{
+  "Parameters": [
+    {
+      "Name": "/aqi/API_ENDPOINT",
+      "Type": "String",
+      "Value": "https://myendpoint",
+      "Version": 1,
+      "LastModifiedDate": "2026-01-01T00:00:00.000Z",
+      "ARN": "arn:aws:ssm:region:id:parameter/aqi/API_ENDPOINT",
+      "DataType": "text"
+    },
+    {
+      "Name": "/aqi/API_KEY",
+      "Type": "String",
+      "Value": "mykey",
+      "Version": 1,
+      "LastModifiedDate": "2026-01-01T00:00:00.000Z",
+      "ARN": "arn:aws:ssm:region:id:parameter/aqi/API_KEY",
+      "DataType": "text"
+    },
+    {
+      "Name": "/aqi/ORIGIN",
+      "Type": "String",
+      "Value": "myorigin",
+      "Version": 2,
+      "LastModifiedDate": "2026-01-01T00:00:00.000Z",
+      "ARN": "arn:aws:ssm:region:id:parameter/aqi/ORIGIN",
+      "DataType": "text"
+    },
+    {
+      "Name": "/aqi/PORT",
+      "Type": "String",
+      "Value": "4321",
+      "Version": 1,
+      "LastModifiedDate": "2026-01-01T00:00:00.000Z",
+      "ARN": "arn:aws:ssm:region:id:parameter/aqi/PORT",
+      "DataType": "text"
+    },
+    {
+      "Name": "/aqi/REDIS_CONNECTION",
+      "Type": "String",
+      "Value": "myredisconnectionstring",
+      "Version": 1,
+      "LastModifiedDate": "2026-01-01T00:00:00.000Z",
+      "ARN": "arn:aws:ssm:region:id:parameter/aqi/REDIS_CONNECTION",
+      "DataType": "text"
+    },
+    {
+      "Name": "/aqi/REDIS_HOST_PASSWORD",
+      "Type": "String",
+      "Value": "myredishostpassword",
+      "Version": 1,
+      "LastModifiedDate": "2026-01-01T00:00:00.000Z",
+      "ARN": "arn:aws:ssm:region:id:parameter/aqi/REDIS_HOST_PASSWORD",
+      "DataType": "text"
+    },
+    {
+      "Name": "/aqi/S3_BUCKET_NAME",
+      "Type": "String",
+      "Value": "mybucketname",
+      "Version": 1,
+      "LastModifiedDate": "2026-01-01T00:00:00.000Z",
+      "ARN": "arn:aws:ssm:region:id:parameter/aqi/S3_BUCKET_NAME",
+      "DataType": "text"
+    },
+    {
+      "Name": "/aqi/SENTRY_DSN",
+      "Type": "String",
+      "Value": "mysentrydsn",
+      "Version": 1,
+      "LastModifiedDate": "2026-01-01T00:00:00.000Z",
+      "ARN": "arn:aws:ssm:region:id:parameter/aqi/SENTRY_DSN",
+      "DataType": "text"
+    }
+  ]
+}
