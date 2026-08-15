@@ -54,7 +54,7 @@ describe("load environment variables", () => {
   it("should load values from ssm parameter store in production", async () => {
     const ssmClient = new SSM();
     const spy = vi.spyOn(ssmClient, "getParametersByPath");
-    spy.mockImplementationOnce(() => getParametersByPathMock);
+    spy.mockImplementation(() => getParametersByPathMock);
 
     const cache = {};
 
@@ -73,7 +73,7 @@ describe("load environment variables", () => {
   it("should cache values loaded from aws parameter store", async () => {
     const ssmClient = new SSM();
     const spy = vi.spyOn(ssmClient, "getParametersByPath");
-    spy.mockImplementationOnce(() => getParametersByPathMock);
+    spy.mockImplementation(() => getParametersByPathMock);
 
     const cache = {};
 
