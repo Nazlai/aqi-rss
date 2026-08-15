@@ -35,7 +35,9 @@ describe("load environment variables", () => {
     vi.stubEnv("SENTRY_DSN", "SENTRY_DSN");
     vi.stubEnv("S3_BUCKET_NAME", "S3_BUCKET_NAME");
 
-    const ssmClient = vi.fn() as unknown as SSM;
+    const ssmClient = new SSM();
+    const spy = vi.spyOn(ssmClient, "getParametersByPath");
+    spy.mockImplementation(vi.fn());
 
     expect(await loadEnvironmentVariables(ssmClient, "/test")).toEqual({
       API_ENDPOINT: "API_ENDPOINT",
@@ -47,7 +49,7 @@ describe("load environment variables", () => {
       S3_BUCKET_NAME: "S3_BUCKET_NAME",
     });
 
-    expect(ssmClient).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalled();
   });
 
   it("should load values from ssm parameter store in production", async () => {
