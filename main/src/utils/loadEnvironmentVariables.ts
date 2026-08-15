@@ -1,13 +1,20 @@
 import { SSM } from "@aws-sdk/client-ssm";
 
-export async function loadEnvironmentVariables(path?: string) {
+const variableCache: Record<string, string> = {};
+
+export async function loadEnvironmentVariables(
+  client: SSM,
+  path?: string,
+  cache: Record<string, string> = variableCache,
+) {
   if (process.env.DEBUG === "true") {
     return loadLocalEnvironmentVariables();
   }
 
-  const cache: Record<string, string> = {};
+  if (Object.keys(cache).length) {
+    return cache;
+  }
 
-  const client = new SSM();
   const result = await client.getParametersByPath({
     Path: path,
     WithDecryption: true,
