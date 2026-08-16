@@ -120,6 +120,7 @@ export class InfraStack extends cdk.Stack {
 
     repository.grantPull(role);
     deploymentBucket.grantRead(role);
+    bucket.grantPut(role, "static/*");
 
     const userData = ec2.UserData.forLinux();
 

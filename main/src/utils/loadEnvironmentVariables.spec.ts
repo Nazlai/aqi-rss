@@ -35,9 +35,8 @@ describe("load environment variables", () => {
     vi.stubEnv("SENTRY_DSN", "SENTRY_DSN");
     vi.stubEnv("S3_BUCKET_NAME", "S3_BUCKET_NAME");
 
-    const ssmClient = new SSM();
-    const spy = vi.spyOn(ssmClient, "getParametersByPath");
-    spy.mockImplementation(vi.fn());
+    const spy = vi.fn();
+    const ssmClient = { getParametersByPath: spy } as unknown as SSM;
 
     expect(await loadEnvironmentVariables(ssmClient, "/test")).toEqual({
       API_ENDPOINT: "API_ENDPOINT",
@@ -55,7 +54,7 @@ describe("load environment variables", () => {
   it("should load values from ssm parameter store in production", async () => {
     const ssmClient = new SSM();
     const spy = vi.spyOn(ssmClient, "getParametersByPath");
-    spy.mockImplementationOnce(() => getParametersByPathMock);
+    spy.mockImplementation(() => getParametersByPathMock);
 
     const cache = {};
 
@@ -74,7 +73,7 @@ describe("load environment variables", () => {
   it("should cache values loaded from aws parameter store", async () => {
     const ssmClient = new SSM();
     const spy = vi.spyOn(ssmClient, "getParametersByPath");
-    spy.mockImplementationOnce(() => getParametersByPathMock);
+    spy.mockImplementation(() => getParametersByPathMock);
 
     const cache = {};
 
