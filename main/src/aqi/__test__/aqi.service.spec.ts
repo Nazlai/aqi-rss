@@ -15,8 +15,9 @@ import expectedHourlyAqimock from "./mock/hourlyaqi.mock.expected.json";
 import { TAICHUNG_CITY, TAIPEI_CITY } from "../enum";
 import { http, HttpResponse } from "msw";
 import { EmptyResponseError, PathNotFoundError } from "../aqi.error";
-import { RedisClientType } from "redis";
+import { createClient, RedisClientType } from "redis";
 import axios from "axios";
+import RedisMemoryServer from "redis-memory-server";
 
 const server = setupServer(...handlers);
 
@@ -25,6 +26,7 @@ beforeAll(() => {
 });
 afterEach(() => {
   server.resetHandlers();
+  vi.restoreAllMocks();
 });
 afterAll(() => {
   server.close();
@@ -43,6 +45,7 @@ const axiosClient = axios.create({
     language: "en",
   },
 });
+const axiosSpy = vi.spyOn(axiosClient, "get");
 
 const mockAxiosClient = () => axiosClient;
 
@@ -91,6 +94,68 @@ describe("aqi service", () => {
       await expect(
         service.getAqiByStationName(TAIPEI_CITY.ZHONGSHAN),
       ).rejects.toThrow(EmptyResponseError);
+    });
+  });
+
+  describe("should cache", () => {
+    let client: RedisClientType;
+    let cacheManager: () => RedisClientType;
+    let redisServer: RedisMemoryServer;
+
+    beforeAll(async () => {
+      redisServer = new RedisMemoryServer();
+      const host = await redisServer.getHost();
+      const port = await redisServer.getPort();
+
+      client = createClient({ socket: { host, port } });
+      await client.connect();
+
+      cacheManager = () => {
+        return client;
+      };
+    });
+
+    afterEach(async () => {
+      await client?.flushAll();
+    });
+
+    afterAll(async () => {
+      await client?.quit();
+      await redisServer?.stop();
+    });
+
+    it("getLatestAqi with redis cache", async () => {
+      const service = new AqiService(cacheManager, mockAxiosClient);
+      const uncachedRequest = await service.getLatestAqi();
+
+      expect(uncachedRequest.data).toEqual(expectedAqimock);
+      expect(await client.KEYS("*")).toContain("aqx_p_432");
+      expect(axiosSpy).toHaveBeenCalledTimes(1);
+
+      const cachedRequest = await service.getLatestAqi();
+
+      expect(axiosSpy).toHaveBeenCalledTimes(1);
+      expect(cachedRequest.data).toEqual(expectedAqimock);
+      expect(cachedRequest.ttl).toBeGreaterThan(0);
+    });
+
+    it("getAqiByStationName with redis cache", async () => {
+      const service = new AqiService(cacheManager, mockAxiosClient);
+      const uncachedRequest = await service.getAqiByStationName(
+        TAIPEI_CITY.ZHONGSHAN,
+      );
+
+      expect(uncachedRequest.data).toEqual(expectedHourlyAqimock);
+      expect(await client.KEYS("*")).toContain(TAIPEI_CITY.ZHONGSHAN);
+      expect(axiosSpy).toHaveBeenCalledTimes(1);
+
+      const cachedRequest = await service.getAqiByStationName(
+        TAIPEI_CITY.ZHONGSHAN,
+      );
+
+      expect(axiosSpy).toHaveBeenCalledTimes(1);
+      expect(cachedRequest.data).toEqual(expectedHourlyAqimock);
+      expect(cachedRequest.ttl).toBeGreaterThan(0);
     });
   });
 });
